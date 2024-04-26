@@ -28,5 +28,8 @@ pip install -r requirements.txt
 py manage.py runserver
 ```
 
+5. Make .env file in root folder, then insert DB_USER and DB_PASSWORD
+```
 DB_USER=[user DB]
 DB_PASSWORD=[password DB]
+```

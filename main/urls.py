@@ -10,5 +10,4 @@ urlpatterns = [
     path('register/label', register_label, name='register-label'),
     path('register/pengguna', register_pengguna, name='register-pengguna'),
     path('dashboard/', dashboard, name='dashboard'),
-
 ]
