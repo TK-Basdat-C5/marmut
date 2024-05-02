@@ -17,4 +17,9 @@ urlpatterns = [
     path('create-podcast/', create_podcast, name='create-podcast'),
     path('list-podcast/', daftar_podcast, name='list-podcast'),
     path('daftar-episode/', daftar_episode, name='daftar-episode'),
+    path('pembayaran-paket/', pembayaran_paket, name='pembayaran-paket'),
+    path('riwayat-transaksi-paket/', riwayat_transaksi_paket, name='riwayat-transaksi-paket'),
+    path('downloaded-songs/', downloaded_songs, name= "downloaded-songs"),
+    path('langganan-paket/', langganan_paket, name= 'langganan-paket'),
+    path('hasil-pencarian/', hasil_pencarian, name= 'hasil-pencarian'), 
 ]
