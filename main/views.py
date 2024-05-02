@@ -89,7 +89,6 @@ def play_song(request):
     context = {}
     return render(request, "play_song.html", context)
 
-=======
 def pembayaran_paket(request):
     context = {}
     return render(request, "pembayaran_paket.html", context)
