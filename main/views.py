@@ -24,6 +24,38 @@ def dashboard(request):
     context = {}
     return render(request, "dashboard.html", context)
 
+def podcast(request):
+    context = {}
+    return render(request, "podcast.html", context)
+
+def daftar_chart(request):
+    context = {}
+    return render(request, "chart_list.html", context)
+
+def create_episode(request):
+    context = {}
+    return render(request, "create_episode.html", context)
+
+def create_podcast(request):
+    context = {}
+    return render(request, "create_podcast.html", context)
+
+def create_podcast(request):
+    context = {}
+    return render(request, "create_podcast.html", context)
+
+def daftar_podcast(request):
+    context = {}
+    return render(request, "list_podcast.html", context)
+
+def daftar_episode(request):
+    context = {}
+    return render(request, "daftar_episode.html", context)
+
+def detail_chart(request):
+    context = {}
+    return render(request, "chart_detail.html", context)
+
 def add_playlist(request):
     context = {}
     return render(request, "add_playlist.html", context)
@@ -55,3 +87,4 @@ def user_playlistDetails(request):
 def play_song(request):
     context = {}
     return render(request, "play_song.html", context)
+

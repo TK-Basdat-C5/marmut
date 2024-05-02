@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Podcast</title>
+    <style>
+    .center-text {
+      text-align: center;
+    }
+    .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    </style>
+</head>
+    
+<div class="podcast-detail">
+  <h1 class="center-text">List Podcast</h1>
+  
+  <div class="episode-list">
+    <table>
+        <thead>
+          <tr>
+            <th class="center-text">Judul</th>
+            <th class="center-text">Jumlah Episode</th>
+            <th class="center-text">Total Durasi</th>
+            <th class="center-text">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center-text">Podcast1</td>
+            <td class="center-text">0</td>
+            <td class="center-text">0 menit</td>
+            <td>
+                <div>
+                    <div class="center-btn">
+                        <a href="#Lihat" class="btn">Lihat Daftar Lagu</a>
+                    </div>
+                    <div class="center-btn">
+                        <a href="#Play" class="btn">Tambah Lagu</a>
+                    </div>
+                    <div class="center-btn">
+                        <a href="#Hapus" class="btn">Hapus</a>
+                    </div>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-text">Podcast2</td>
+            <td class="center-text">2</td>
+            <td class="center-text">4 menit</td>
+            <td>
+                <div>
+                    <div class="center-btn">
+                        <a href="#Lihat" class="btn">Lihat Daftar Lagu</a>
+                    </div>
+                    <div class="center-btn">
+                        <a href="#Play" class="btn">Tambah Lagu</a>
+                    </div>
+                    <div class="center-btn">
+                        <a href="#Hapus" class="btn">Hapus</a>
+                    </div>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-text">...</td>
+            <td class="center-text"> ....</td>
+            <td class="center-text">.....</td>
+            <td class="center-text">....</td>
+          </tr>
+        </tbody>
+      </table>
+      
+  </div>
+  
+</div>
+</body>
+</html>
+
+{% endblock %}

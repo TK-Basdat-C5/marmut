@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Episode</title>
+    <style>
+    .center-text {
+      text-align: center;
+    }
+    .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    </style>
+</head>
+    
+<div class="podcast-detail">
+  <h1 class="center-text">DAFTAR EPISODE PADA PODCAST1</h1>
+  
+  <div class="episode-list">
+    <table>
+        <thead>
+          <tr>
+            <th class="center-text">Judul Episode</th>
+            <th class="center-text">Deskripsi</th>
+            <th class="center-text">Durasi</th>
+            <th class="center-text">Tanggal</th>
+            <th class="center-text">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center-text">SubJudul1</td>
+            <td class="center-text">Lorem Ipsum ….</td>
+            <td class="center-text">59 menit</td>
+            <td class="center-text">18/03/2024</td>
+            <td>
+                <div>
+                    <div class="center-btn">
+                        <a href="#Hapus" class="btn">Hapus</a>
+                    </div>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-text">SubJudul2</td>
+            <td class="center-text">Lorem Ipsum ….</td>
+            <td class="center-text">1 jam 2 menit</td>
+            <td class="center-text">25/03/2024</td>
+            <td>
+                <div>
+                    <div class="center-btn">
+                        <a href="#Hapus" class="btn">Hapus</a>
+                    </div>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="center-text">...</td>
+            <td class="center-text"> ....</td>
+            <td class="center-text">.....</td>
+            <td class="center-text">....</td>
+            <td class="center-text">....</td>
+          </tr>
+        </tbody>
+      </table>
+      
+  </div>
+  
+</div>
+</body>
+</html>
+
+
+{% endblock %}

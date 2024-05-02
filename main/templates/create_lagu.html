@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Lagu</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Create Lagu</h2>
+    <form>
+        <div class="form-group">
+            <label for="album">Album:</label>
+            <input type="text" id="album" name="album" readonly value="Album1">
+        </div>
+        <div class="form-group">
+            <label for="judul">Judul:</label>
+            <input type="text" id="judul" name="judul" required>
+        </div>
+        <div class="form-group">
+            <label for="artist">Artist:</label>
+            <select id="songwriters" name="songwriters">
+                <option value="artist1">artist1</option>
+                <option value="artist2">artist2</option>
+                <option value="artist3">artist3</option>
+                <option value="artist4">artist4</option>
+                <option value="artist5">artist5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="songwriters">Songwriter:</label>
+            <select id="songwriters" name="songwriters" multiple>
+                <option value="songwriter1">songwriter1</option>
+                <option value="songwriter2">songwriter2</option>
+                <option value="songwriter3">songwriter3</option>
+                <option value="songwriter4">songwriter4</option>
+                <option value="songwriter5">songwriter5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="genres">Genre:</label>
+            <select id="genres" name="genres" multiple>
+                <option value="genre1">Rock</option>
+                <option value="genre2">Pop</option>
+                <option value="genre3">Jazz</option>
+                <option value="genre4">R&B</option>
+                <option value="genre5">Blues</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="durasi">Durasi:</label>
+            <input type="text" id="durasi" name="durasi" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
