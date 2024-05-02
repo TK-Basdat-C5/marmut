@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 20px;
+            background-color: #9500a8;
+            overflow: hidden;
+            position: relative;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #b261c7;
+        }
+
+        .nav-item:last-child {
+            float: right;
+        }
+
+        .nav-item:last-child a {
+            border-left: 1px solid #777;
+        }
+
+        .nav-item:last-child a:hover {
+            background-color: #b261c7;
+        }
+
+        .nav-item:first-child a {
+            border-right: 1px solid #777;
+        }
+
+        .nav-item:first-child a:hover {
+            background-color: #b261c7;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        nav input[type="text"] {
+            padding: 10px;
+            border: none;
+            background-color: #9500a8; 
+            color: white;
+            border-bottom: 2px solid white; 
+            font-size: 16px; 
+            outline: none;
+        }
+
+        nav input[type="text"]::placeholder {
+            color: white;
+        }
+
+        nav input[type="text"]:focus {
+            border-bottom: 2px solid #b261c7;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+                <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a href="/chart">Chart</a></li>
+                <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
+                <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                <!-- <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li> -->
+                <!-- <li class="nav-item"><a href="/podcast">Kelola Podcast</a></li> -->
+                <!-- <li class="nav-item"><a href="/album-songs">Kelola Album & Songs</a></li> -->
+                <!-- <li class="nav-item"><a href="/album">Kelola Album</a></li> -->
+                <!-- <li class="nav-item"><a href="/royalties">Cek Royalti</a></li> -->
+                <li class="nav-item"><a href="/logout">Logout</a></li>
+                <!-- <li class="nav-item"><a href="/login">Login</a></li>
+                <li class="nav-item"><a href="/register">Registrasi</a></li> -->
+                <li class="nav-item"><input type="text" placeholder="Search..." /></li>
+        </ul>
+    </nav>
+    <div style="margin-top: 100px;"></div>    
+</body>
+</html>
