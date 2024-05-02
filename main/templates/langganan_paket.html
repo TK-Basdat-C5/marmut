@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langganan Paket</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            padding: 8px 15px;
+            text-align: center;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .center {
+            text-align: center;
+        }
+        .block {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .right {
+            float: right;
+        }
+        .center {
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3" class="center">
+                        Langganan Paket
+                        <button class="button right">Riwayat Transaksi</button> 
+                    </th>
+                </tr>
+                <tr>
+                    <th>Jenis</th>
+                    <th>Harga</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1 Bulan</td>
+                    <td>Rp54.900</td>
+                    <td><button class="button">Berlangganan</button></td>
+                </tr>
+                <tr>
+                    <td>3 Bulan</td>
+                    <td>...</td>
+                    <td><button class="button">Berlangganan</button></td>
+                </tr>
+                <tr>
+                    <td>6 Bulan</td>
+                    <td>...</td>
+                    <td><button class="button">Berlangganan</button></td>
+                </tr>
+                <tr>
+                    <td>1 Tahun</td>
+                    <td>...</td>
+                    <td><button class="button">Berlangganan</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+{% endblock %}

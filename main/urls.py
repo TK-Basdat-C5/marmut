@@ -25,4 +25,9 @@ urlpatterns = [
     path('user_playlist_details/' , user_playlist_details, name='user_playlist_details'),
     path('user_playlistDetails/', user_playlistDetails, name='user_playlistDetails'),
     path('play_song/', play_song, name='play_song'),
+    path('pembayaran-paket/', pembayaran_paket, name='pembayaran-paket'),
+    path('riwayat-transaksi-paket/', riwayat_transaksi_paket, name='riwayat-transaksi-paket'),
+    path('downloaded-songs/', downloaded_songs, name= "downloaded-songs"),
+    path('langganan-paket/', langganan_paket, name= 'langganan-paket'),
+    path('hasil-pencarian/', hasil_pencarian, name= 'hasil-pencarian'), 
 ]
