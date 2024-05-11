@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembayaran Paket</title>
+<style>
+    .center-text {
+      text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .button {
+        display: inline-block;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007bff;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .button:hover {
+        background-color: #0056b3;
+    }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+</style>
+</head>
+
+<body>
+    <h1 class="center-text">Pembayaran Paket</h1>
+    <p>Informasi Paket yang Ingin Dibeli:</p>
+    <table>
+        <thead>
+            <tr>
+                <th class="center-text">Jenis</th>
+                <th class="center-text">Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="center-text">1 Bulan</td>
+                <td class="center-text">Rp54.900</td>
+            </tr>
+        </tbody>
+    </table>
+    <label for="paymentMethod">Metode Pembayaran:</label>
+    <select id="paymentMethod" name="paymentMethod">
+        <option value="bankTransfer">Transfer Bank</option>
+        <option value="creditCard">Kartu Kredit</option>
+        <option value="eWallet">E-wallet</option>
+    </select>
+    <div class="center-btn">
+        <button type="submit" class="button">SUBMIT</button>
+    </div>
+</body>
+</html>
+
+{% endblock %}

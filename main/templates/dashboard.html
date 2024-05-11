@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{%block content%}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+    .header {
+        color: #000;
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 20px;
+    }
+    .profile-info {
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+    .profile-info p {
+        margin: 5px 0;
+    }
+    .content {
+        padding: 0 20px;
+    }
+    .content h2 {
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+    .table {
+        display: flex;
+        flex-direction: column;
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .row {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+    }
+    .cell {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        border-right: 1px solid #ddd;
+        color: #000;
+    }
+    .cell:last-child {
+        border-right: none;
+    }
+    .header .cell {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Dashboard</h1>
+</div>
+
+<div class="profile-info">
+    <p><strong>Nama:</strong> John Doe</p>
+    <p><strong>Email:</strong> johndoe@example.com</p>
+    <p><strong>Kontak:</strong> 123456789</p>
+    <p><strong>Kota Asal:</strong> Jakarta</p>
+    <p><strong>Gender:</strong> Male</p>
+    <p><strong>Tempat Lahir:</strong> Surabaya</p>
+    <p><strong>Tanggal Lahir:</strong> 1990-01-01</p>
+    <p><strong>Role:</strong>Podcaster</p>
+</div>
+
+<div class="content">
+    <h2>Daftar Album</h2>
+    <div class="table">
+        <div class="row header">
+            <!-- <div class="cell">Playlist</div> -->
+            <!-- <div class="cell">Lagu</div> -->
+            <!-- <div class="cell">Podcast</div> -->
+            <div class="cell">Album</div>
+        </div>
+        <div class="row">
+            <!-- <div class="cell"><strong>Playlist 1</strong></div> -->
+            <!-- <div class="cell"><strong>Belum Memiliki Lagu</strong> </div> -->
+            <!-- <div class="cell"><strong>Belum Memiliki Podcast</strong> </div> -->
+            <div class="cell"><strong>Belum Memiliki Album</strong> </div>
+        </div>
+        <div class="row">
+            <!-- <div class="cell"><strong>Playlist 2</strong> </div> -->
+            <!-- <div class="cell"><strong>Lagu 2</strong> </div> -->
+            <!-- <div class="cell"><strong>Podcast 2</strong> </div> -->
+            <!-- <div class="cell"><strong>Album 2</strong> </div> -->
+        </div>
+        <!-- Add more rows as needed -->
+    </div>
+</div>
+
+</body>
+</html>
+
+{%endblock%}

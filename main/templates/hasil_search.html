@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Pencarian</title>
+<style>
+    .center-text {
+      text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .button {
+        display: inline-block;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007bff;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .button:hover {
+        background-color: #0056b3;
+    }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+</style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="5" class="center-text">Hasil Pencarian “love”</th>
+            </tr>
+            <tr>
+                <th class="center-text">Tipe</th>
+                <th class="center-text">Judul</th>
+                <th class="center-text">Oleh</th>
+                <th class="center-text">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="center-text">SONG</td>
+                <td class="center-text">Love is in the air</td>
+                <td class="center-text">Artist1</td>
+                <td class="center-text"><a href="#" class="button">Lihat</a></td>
+            </tr>
+            <tr>
+                <td class="center-text">SONG</td>
+                <td class="center-text">What is love</td>
+                <td class="center-text">Artist2</td>
+                <td class="center-text"><a href="#" class="button">Lihat</a></td>
+            </tr>
+            <tr>
+                <td class="center-text">PODCAST </td>
+                <td class="center-text">Love is Blind Pod</td>
+                <td class="center-text">Podcaster1</td>
+                <td class="center-text"><a href="#" class="button">Lihat</a></td>
+            </tr>
+            <tr>
+                <td class="center-text">USER PLAYLIST</td>
+                <td class="center-text">90s Love Songs</td>
+                <td class="center-text">User1</td>
+                <td class="center-text"><a href="#" class="button">Lihat</a></td>
+            </tr>
+            <tr>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riwayat Transaksi</title>
+<style>
+    .center-text {
+      text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .button {
+        display: inline-block;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007bff;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    .button:hover {
+        background-color: #0056b3;
+    }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+</style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="5" class="center-text">RIWAYAT TRANSAKSI PAKET</th>
+            </tr>
+            <tr>
+                <th class="center-text">Jenis</th>
+                <th class="center-text">Tanggal Dimulai</th>
+                <th class="center-text">Tanggal Berakhir</th>
+                <th class="center-text">Metode Pembayaran</th>
+                <th class="center-text">Nominal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="center-text">1 Bulan </td>
+                <td class="center-text">8 April 2024, 23:00</td>
+                <td class="center-text">8 Mei 2024, 23:00</td>
+                <td class="center-text">E-Wallet</td>
+                <td class="center-text">Rp54.900</td>
+            </tr>
+            <tr>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+                <td class="center-text">...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="center-btn">
+        <button type="submit" class="button">Kembali</button>
+    </div>
+</body>
+</html>
+
+{% endblock %}
