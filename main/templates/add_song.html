@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}
+    Add Song to Playlist
+{% endblock %}<!DOCTYPE html>
+
+{% block content %}
+
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Song to Playlist</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+  form {
+    margin-top: 20px;
+  }
+  select {
+    padding: 5px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h2>ADD SONG TO USER PLAYLIST</h2>
+<div class="song-info">
+  <p><strong>Judul:</strong> Song1</p>
+  <p><strong>Artist:</strong> Artist1</p>
+  <form id="playlistForm" onsubmit="return addToPlaylist()">
+    <label for="playlist">Playlist:</label>
+    <select id="playlist" required>
+      <option value="">Select Playlist</option>
+      <option value="Playlist1">Playlist 1</option>
+      <option value="Playlist2">Playlist 2</option>
+      <!-- Add more options dynamically or fetch from user's playlists -->
+    </select>
+    <br><br>
+    <button type="submit">TAMBAH</button>
+    <button type="button" onclick="goBack()">KEMBALI</button>
+  </form>
+</div>
+
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <span onclick="hideSuccessModal()" style="float: right; cursor: pointer;">&times;</span>
+    <p>Berhasil menambahkan Lagu dengan judul ‘Song1’ ke ‘Playlist1’!</p>
+    <button onclick="hideSuccessModal()">Close</button>
+  </div>
+</div>
+
+<script>
+function addToPlaylist() {
+  var playlist = document.getElementById("playlist").value;
+  if (!playlist) {
+    alert("Please select a playlist.");
+    return false;
+  }
+  showSuccessModal(playlist);
+  return false;
+}
+
+
+
+function showSuccessModal(playlist) {
+  var modal = document.getElementById("successModal");
+  var modalContent = modal.querySelector(".modal-content");
+  modalContent.innerHTML = "<span onclick=\"hideSuccessModal()\" style=\"float: right; cursor: pointer;\">&times;</span><p>Berhasil menambahkan Lagu dengan judul ‘Song1’ ke ‘" + playlist + "’!</p><button onclick=\"hideSuccessModal()\">Close</button><button onclick=\"goToPlaylist()\">KE PLAYLIST</button>";
+  modal.style.display = "block";
+}
+
+function hideSuccessModal() {
+  var modal = document.getElementById("successModal");
+  modal.style.display = "none";
+}
+</script>
+
+</body>
+</html>
+
+{% endblock %}
