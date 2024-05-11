@@ -5,10 +5,6 @@ app_name = 'main'
 
 urlpatterns = [
     path('', landing, name='landing'),
-    path('login/', login, name='login'),
-    path('register/', register, name='register'),
-    path('register/label', register_label, name='register-label'),
-    path('register/pengguna', register_pengguna, name='register-pengguna'),
     path('dashboard/', dashboard, name='dashboard'),
     path('podcast/', podcast, name='podcast'),
     path('chart-detail/', detail_chart, name='chart-list'),
@@ -25,4 +21,9 @@ urlpatterns = [
     path('user_playlist_details/' , user_playlist_details, name='user_playlist_details'),
     path('user_playlistDetails/', user_playlistDetails, name='user_playlistDetails'),
     path('play_song/', play_song, name='play_song'),
+    path('pembayaran-paket/', pembayaran_paket, name='pembayaran-paket'),
+    path('riwayat-transaksi-paket/', riwayat_transaksi_paket, name='riwayat-transaksi-paket'),
+    path('downloaded-songs/', downloaded_songs, name= "downloaded-songs"),
+    path('langganan-paket/', langganan_paket, name= 'langganan-paket'),
+    path('hasil-pencarian/', hasil_pencarian, name= 'hasil-pencarian'), 
 ]

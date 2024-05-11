@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Lagu</title>
+<style>
+    .center-text {
+      text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .button {
+        display: inline-block;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007bff;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .button:hover {
+        background-color: #0056b3;
+    }
+    .center-btn {
+      display: flex;
+      justify-content: center;
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+</style>
+</head>
+<body>
+<h1 class="center-text">DAFTAR LAGU</h1>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p>Berhasil menghapus lagu dengan judul 'Song2' dari daftar unduhan!</p>
+    <div class="center-btn">
+        <button class="button" onclick="closeModal()">Kembali</button>
+    </div>
+  </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th class="center-text">Judul Lagu</th>
+            <th class="center-text">Oleh</th>
+            <th class="center-text">Tanggal Download</th>
+            <th class="center-text">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="center-text">Song1</td>
+            <td class="center-text">Artist1</td>
+            <td class="center-text">20/02/2024</td>
+            <td class="center-text">
+                <a href="#" class="button">Lihat</a>
+                <a href="#" onclick="openModal()" class="button">Hapus</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="center-text">Song2</td>
+            <td class="center-text">Artist2</td>
+            <td class="center-text">21/03/2024</td>
+            <td class="center-text">
+                <a href="#" class="button">Lihat</a>
+                <a href="#" class="button" onclick="openModal()">Hapus</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+        </tr>
+        <tr>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+            <td class="center-text">…</td>
+        </tr>
+        <!-- Add more songs as needed -->
+    </tbody>
+</table>
+<br>
+<div class="center-btn">
+    <a href="#" class="button">Kembali</a>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == document.getElementById('myModal')) {
+        closeModal();
+    }
+}
+</script>
+</body>
+</html>
+
+{% endblock %}
