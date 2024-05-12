@@ -57,7 +57,8 @@
 <body>
     <div class="container">
         <h2>FORM REGISTRASI - Label</h2>
-        <form>
+        {% csrf_token %}
+        <form method="POST">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
