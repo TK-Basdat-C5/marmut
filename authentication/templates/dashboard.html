@@ -70,14 +70,21 @@
 </div>
 
 <div class="profile-info">
-    <p><strong>Nama:</strong> John Doe</p>
-    <p><strong>Email:</strong> johndoe@example.com</p>
-    <p><strong>Kontak:</strong> 123456789</p>
-    <p><strong>Kota Asal:</strong> Jakarta</p>
-    <p><strong>Gender:</strong> Male</p>
-    <p><strong>Tempat Lahir:</strong> Surabaya</p>
-    <p><strong>Tanggal Lahir:</strong> 1990-01-01</p>
-    <p><strong>Role:</strong>Podcaster</p>
+    <p><strong>Nama:</strong> {{ user.2 }}</p>
+    <p><strong>Email:</strong> {{ user.0 }}</p>
+    {% if role == "label" %}
+        <p><strong>Kontak:</strong> {{ user.3 }}</p>
+    {% else %}
+        <p><strong>Kota Asal:</strong> {{ user.7 }}</p>
+        {% if user.3 == 0 %}
+            <p><strong>Gender:</strong> Perempuan</p>
+        {% else %}
+            <p><strong>Gender:</strong> Laki-laki</p>
+        {% endif %}
+        <p><strong>Tempat Lahir:</strong> {{ user.4 }}</p>
+        <p><strong>Tanggal Lahir:</strong> {{ user.5 }}</p>
+        <p><strong>Role:</strong> {{ roles|join:", " }}</p>
+    {% endif %}
 </div>
 
 <div class="content">

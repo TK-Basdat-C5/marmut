@@ -8,10 +8,19 @@ from django.http import (HttpResponse, HttpResponseNotFound, HttpResponseRedirec
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from utils.query import query
 import random
 import sqlite3
 import uuid
 
+def logout(request):
+    request.session.flush()
+    request.session.clear_expired()
+
+    context = {
+        "is_logged_in": False
+    }
+    return render(request, "landing.html", context)
 
 def show_landingpage(request):
     context = {
@@ -19,9 +28,94 @@ def show_landingpage(request):
     }
     return render(request, "landing.html", context)
 
+@csrf_exempt
 def login(request):
-    context = {}
+    if "email" in request.session:
+        return redirect('authentication:dashboard')
+    context = {
+        "is_logged_in": False
+    }
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        with conn.cursor() as cursor:
+            cursor.execute("set search_path to marmut")
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}' AND password = '{password}'")
+            user_pengguna = cursor.fetchone()
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}' AND password = '{password}'")
+            user_label = cursor.fetchone()
+
+            if not user_pengguna and not user_label:
+                context["message"] = "Email atau Password Salah"
+                return render(request, "login.html", context)
+            
+            cursor.execute("set search_path to public")
+            request.session["email"] = email
+            if user_pengguna:
+                request.session["role"] = "pengguna"
+            elif user_label:
+                request.session["role"] = "label"
+            return dashboard(request)
+            
     return render(request, "login.html", context)
+
+def dashboard(request):
+    if "email" not in request.session:
+        return redirect('authentication:login')
+
+    email = request.session["email"]
+    role = request.session["role"]
+
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        user_data = cursor.fetchone()
+
+        if not user_data:
+            return redirect('authentication:login')
+        
+        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+        premium = cursor.fetchone()
+        if premium:
+            is_premium = True
+        else:
+            is_premium = False
+        
+        cursor.execute("set search_path to public")
+
+    context = {
+        'is_logged_in': True,
+        'user': user_data,
+        'role': role,
+        'roles': get_role_pengguna(email),
+        'is_premium': is_premium
+    }
+
+    return render(request, 'dashboard.html', context)
+
+
+def get_role_pengguna(email: str) -> list:
+    roles = []
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT * FROM ARTIST WHERE email_akun = '{email}'")
+        artist = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM SONGWRITER WHERE email_akun = '{email}'")
+        songwriter = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM PODCASTER WHERE email = '{email}'")
+        podcaster = cursor.fetchall()
+        cursor.execute("set search_path to public")
+    if len(artist) > 0:
+        roles.append("Artist")
+    if len(songwriter) > 0:
+        roles.append("Songwriter")
+    if len(podcaster) > 0:
+        roles.append("Podcaster")
+
+    return roles
+
 
 @csrf_exempt
 def register(request):
@@ -67,9 +161,9 @@ def register_pengguna(request):
         nama = request.POST.get('nama')
         gender = request.POST.get('gender')
         if(gender) == ('Laki-laki'):
-            no_gender = 1;
+            no_gender = 1
         else:
-            no_gender = 0;
+            no_gender = 0
         tempat_lahir = request.POST.get('tempat_lahir')
         tanggal_lahir = request.POST.get('tanggal_lahir')
         kota_asal = request.POST.get('kota_asal')
