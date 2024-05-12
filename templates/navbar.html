@@ -84,21 +84,33 @@
         <ul>
                 {% if is_logged_in %}
                 <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="nav-item"><a href="/chart">Chart</a></li>
-                <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
-                <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                    {% if role == "pengguna" %}
+                        <li class="nav-item"><a href="/chart">Chart</a></li>
+                        <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
+                        <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                        {% if is_premium %}
+                            <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
+                        {% endif %}
+                        
+                        {% if "Podcaster" in roles %}
+                            <li class="nav-item"><a href="/podcast">Kelola Podcast</a></li>
+                        {% endif %}
+                        
+                        {% if "Artist" in roles or "Songwriter" in roles %}
+                            <li class="nav-item"><a href="/album-songs">Kelola Album & Songs</a></li>
+                            <li class="nav-item"><a href="/royalties">Cek Royalti</a></li>
+                        {% endif %} 
 
-                <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
-                <li class="nav-item"><a href="/podcast">Kelola Podcast</a></li>
-                <li class="nav-item"><a href="/album-songs">Kelola Album & Songs</a></li>
-                <li class="nav-item"><a href="/album">Kelola Album</a></li>
-                <li class="nav-item"><a href="/royalties">Cek Royalti</a></li>
-                <li class="nav-item"><a href="/logout">Logout</a></li>
-                <li class="nav-item"><input type="text" placeholder="Search..." /></li>
-
+                        <li class="nav-item"><input type="text" placeholder="Search..." /></li>
+                    {% else %}
+                        <li class="nav-item"><a href="/album">Kelola Album</a></li>
+                        <li class="nav-item"><a href="/royalties">Cek Royalti</a></li>
+                        {% endif %}
+                    <li class="nav-item"><a href="/logout">Logout</a></li>
+                        
                 {% else %}
-                <li class="nav-item"><a href="/login">Login</a></li>
-                <li class="nav-item"><a href="/register">Registrasi</a></li>
+                    <li class="nav-item"><a href="/login">Login</a></li>
+                    <li class="nav-item"><a href="/register">Registrasi</a></li>
                 {% endif %}
         </ul>
     </nav>
