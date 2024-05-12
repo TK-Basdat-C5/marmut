@@ -57,7 +57,8 @@
 <body>
     <div class="container">
         <h2>FORM REGISTRASI - Pengguna</h2>
-        <form>
+        {% csrf_token %}
+        <form method="POST">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
@@ -97,7 +98,7 @@
                 <label for="artist">Artist</label><br>
                 <input type="checkbox" id="songwriter" name="role" value="Songwriter">
                 <label for="songwriter">Songwriter</label><br>
-            </div>
+            </div>                      
             <button type="submit" class="btn">Register</button>
         </form>
     </div>

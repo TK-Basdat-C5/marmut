@@ -4,7 +4,6 @@ def landing(request):
     context = {}
     return render(request, "landing.html", context)
 
-
 def dashboard(request):
     context = {}
     return render(request, "dashboard.html", context)

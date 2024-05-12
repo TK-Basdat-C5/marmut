@@ -4,7 +4,6 @@ from main.views import *
 app_name = 'main'
 
 urlpatterns = [
-    path('', landing, name='landing'),
     path('dashboard/', dashboard, name='dashboard'),
     path('podcast/', podcast, name='podcast'),
     path('chart-detail/', detail_chart, name='chart-list'),
