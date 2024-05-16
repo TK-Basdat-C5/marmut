@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'marmut.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
+        'NAME': "postgres",
         'USER': "postgres.hlnoqhdwyepsolebaves",
         'PASSWORD': "passwordmarmutc5basdat",
         'HOST': "aws-0-ap-southeast-1.pooler.supabase.com",
