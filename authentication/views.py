@@ -78,6 +78,7 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
+        print(role + " irpan gay")
         if role == "pengguna":
             cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
         else: 
@@ -108,7 +109,7 @@ def dashboard(request):
 
     if("Artist" in roles):
         context['songs'] = get_songs_artist_songwriter(email, "artist")
-    else:
+    elif("Songwriter" in roles):
         context['songs'] = get_songs_artist_songwriter(email, "songwriter")
 
 
