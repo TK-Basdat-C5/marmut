@@ -21,11 +21,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Railway CLI
+        run: |
+          curl -sSL https://railway.app/install | sh
+          echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}  # Pastikan kamu sudah menyimpan Railway token di GitHub Secrets
-          DB_USER: ${{ secrets.DATABASE_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
+          source $GITHUB_ENV
           railway login --token $RAILWAY_TOKEN
           railway up
