@@ -30,4 +30,4 @@ jobs:
           RAILWAY_TOKEN: df089d32-3a84-4cdb-9a70-1a2e64bfb170
           DB_USER: ${{ secrets.DATABASE_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: railway up
+        run: railway up --service marmut
