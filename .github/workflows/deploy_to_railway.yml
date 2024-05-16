@@ -23,8 +23,8 @@ jobs:
 
       - name: Install Railway CLI
         run: |
-          curl -sSL https://railway.app/install | sh
-          echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
+          curl -sSL https://raw.githubusercontent.com/railwayapp/cli/master/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
 
       - name: Deploy to Railway
         env:
@@ -32,6 +32,5 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
-          source $GITHUB_ENV
           railway login --token $RAILWAY_TOKEN
           railway up
