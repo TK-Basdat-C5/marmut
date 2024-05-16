@@ -85,13 +85,18 @@ def dashboard(request):
         
         cursor.execute("set search_path to public")
 
+    roles = get_role_pengguna(email)
+
     context = {
         'is_logged_in': True,
         'user': user_data,
         'role': role,
-        'roles': get_role_pengguna(email),
+        'roles': roles,
         'is_premium': is_premium
     }
+    if ("Artist" in roles or "Songwriter" in roles):
+        context['songs'] = get_songs_artist_songwriter(email)
+
 
     return render(request, 'dashboard.html', context)
 
@@ -116,12 +121,45 @@ def get_role_pengguna(email: str) -> list:
 
     return roles
 
+def get_songs_artist_songwriter(email: str) -> list:
+    songs = []
+    formatted_songs = []
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT id FROM ARTIST WHERE email_akun = '{email}'")
+        id_json = cursor.fetchall()
+        id_searched = str(id_json[0][0])
+
+        cursor.execute(f"SELECT * FROM SONG WHERE id_artist = '{id_searched}'")
+        datas = cursor.fetchall()
+
+        for data in datas:
+            id_konten = str(data[0])
+            cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
+            tmp = cursor.fetchall()
+            songs.append(tmp)
+
+        print(datas)
+
+        for song_group in songs:
+            group_list = []
+            for song in song_group:
+                song_dict = {
+                    'id': song[0],
+                    'title': song[1],
+                    'release_date': song[2],
+                    'year': song[3],
+                    'duration': song[4]
+                }
+                group_list.append(song_dict)
+            formatted_songs.append(group_list)
+        cursor.execute("set search_path to public")
+
+    return formatted_songs
+
 
 @csrf_exempt
 def register(request):
-    context = {
-        "is_logged_in": False
-    }
     return render(request, 'register.html')
 
 @csrf_exempt

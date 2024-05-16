@@ -88,28 +88,76 @@
 </div>
 
 <div class="content">
-    <h2>Daftar Album</h2>
-    <div class="table">
-        <div class="row header">
-            <!-- <div class="cell">Playlist</div> -->
-            <!-- <div class="cell">Lagu</div> -->
-            <!-- <div class="cell">Podcast</div> -->
-            <div class="cell">Album</div>
-        </div>
-        <div class="row">
-            <!-- <div class="cell"><strong>Playlist 1</strong></div> -->
-            <!-- <div class="cell"><strong>Belum Memiliki Lagu</strong> </div> -->
-            <!-- <div class="cell"><strong>Belum Memiliki Podcast</strong> </div> -->
-            <div class="cell"><strong>Belum Memiliki Album</strong> </div>
-        </div>
-        <div class="row">
-            <!-- <div class="cell"><strong>Playlist 2</strong> </div> -->
-            <!-- <div class="cell"><strong>Lagu 2</strong> </div> -->
-            <!-- <div class="cell"><strong>Podcast 2</strong> </div> -->
-            <!-- <div class="cell"><strong>Album 2</strong> </div> -->
-        </div>
-        <!-- Add more rows as needed -->
-    </div>
+    
+        <h2>Daftar Playlist</h2>
+        {% if playlists|length > 0 %}
+            <ul>
+                {% for playlist in playlists %}
+                    <li>{{ playlist }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Belum Memiliki Playlist</p>
+        {% endif %}
+
+        {% if "Artist" in roles or "Songwriter" in roles %}
+            <h2>Daftar Lagu</h2>
+            {% if songs %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Judul</th>
+                            <th>Tanggal Rilis</th>
+                            <th>Tahun</th>
+                            <th>Durasi (menit)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song_list in songs %}
+                            {% for song in song_list %}
+                                <tr>
+                                    <td>{{ song.id }}</td> <!-- UUID -->
+                                    <td>{{ song.title }}</td> <!-- Judul -->
+                                    <td>{{ song.release_date|date:"Y-m-d" }}</td> <!-- Tanggal Rilis -->
+                                    <td>{{ song.year }}</td> <!-- Tahun -->
+                                    <td>{{ song.duration }}</td> <!-- Durasi -->
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Belum Memiliki Lagu</p>
+            {% endif %}
+        {% endif %}
+
+        {% if "Podcaster" in roles %}
+            <h2>Daftar Podcast</h2>
+            {% if podcasts|length > 0 %}
+                <ul>
+                    {% for podcast in podcasts %}
+                        <li>{{ podcast }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Belum Memiliki Podcast</p>
+            {% endif %}
+        {% endif %}
+
+        {% if "Label" in roles %}
+        <h2>Daftar Album</h2>
+        {% if albums|length > 0 %}
+            <ul>
+                {% for podcast in albums %}
+                    <li>{{ podcast }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Belum Memiliki Podcast</p>
+        {% endif %}
+
+    {% endif %}
 </div>
 
 </body>
