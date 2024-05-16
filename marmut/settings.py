@@ -77,6 +77,9 @@ DATABASES = {
         'PASSWORD': "passwordmarmutc5basdat",
         'HOST': "aws-0-ap-southeast-1.pooler.supabase.com",
         'PORT': "5432",
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
