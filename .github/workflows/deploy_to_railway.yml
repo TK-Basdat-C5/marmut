@@ -27,7 +27,7 @@ jobs:
 
       - name: Deploy
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          DB_USER: ${{ secrets.DB_USER }}
+          RAILWAY_TOKEN: 7a3e0e27-5d2f-403b-a983-79704d982d81
+          DB_USER: ${{ secrets.DATABASE_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: railway up
