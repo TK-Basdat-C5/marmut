@@ -86,6 +86,7 @@ def dashboard(request):
         cursor.execute("set search_path to public")
 
     roles = get_role_pengguna(email)
+
     context = {
         'is_logged_in': True,
         'user': user_data,
@@ -93,8 +94,9 @@ def dashboard(request):
         'roles': roles,
         'is_premium': is_premium
     }
-    if ("Artist" in roles and "Songwriter" in roles):
+    if ("Artist" in roles or "Songwriter" in roles):
         context['songs'] = get_songs_artist_songwriter(email)
+
 
     return render(request, 'dashboard.html', context)
 
@@ -136,6 +138,8 @@ def get_songs_artist_songwriter(email: str) -> list:
             cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
             tmp = cursor.fetchall()
             songs.append(tmp)
+
+        print(datas)
 
         for song_group in songs:
             group_list = []
