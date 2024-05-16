@@ -3,8 +3,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import connection as conn
-from django.http import (HttpResponse, HttpResponseNotFound, HttpResponseRedirect,
-                         JsonResponse)
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -39,25 +37,35 @@ def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        if (";" in email):
+            return render(request, "login.html", context)
 
         with conn.cursor() as cursor:
-            cursor.execute("set search_path to marmut")
-            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}' AND password = '{password}'")
-            user_pengguna = cursor.fetchone()
-            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}' AND password = '{password}'")
-            user_label = cursor.fetchone()
+            try:
+                cursor.execute("set search_path to marmut")
+                cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}' AND password = '{password}'")
+                user_pengguna = cursor.fetchone()
+                cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}' AND password = '{password}'")
+                user_label = cursor.fetchone()
 
-            if not user_pengguna and not user_label:
-                context["message"] = "Email atau Password Salah"
-                return render(request, "login.html", context)
-            
-            cursor.execute("set search_path to public")
-            request.session["email"] = email
-            if user_pengguna:
-                request.session["role"] = "pengguna"
-            elif user_label:
-                request.session["role"] = "label"
-            return dashboard(request)
+                if not user_pengguna and not user_label:
+                    context["message"] = "Email atau Password Salah"
+                    return render(request, "login.html", context)
+                
+                cursor.execute("set search_path to public")
+                request.session["email"] = email
+                if user_pengguna:
+                    cursor.execute("set search_path to public")
+                    request.session["role"] = "pengguna"
+                elif user_label:
+                    cursor.execute("set search_path to public")
+                    request.session["role"] = "label"
+                return dashboard(request)
+            except Exception as e:
+                msg = str(e).split('\n')[0]
+                print(msg)
+                return render(request, "login.html")
+                
             
     return render(request, "login.html", context)
 
@@ -70,7 +78,10 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        if role == "pengguna":
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else: 
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
         user_data = cursor.fetchone()
 
         if not user_data:
@@ -94,8 +105,11 @@ def dashboard(request):
         'roles': roles,
         'is_premium': is_premium
     }
-    if ("Artist" in roles or "Songwriter" in roles):
-        context['songs'] = get_songs_artist_songwriter(email)
+
+    if("Artist" in roles):
+        context['songs'] = get_songs_artist_songwriter(email, "artist")
+    else:
+        context['songs'] = get_songs_artist_songwriter(email, "songwriter")
 
 
     return render(request, 'dashboard.html', context)
@@ -121,13 +135,17 @@ def get_role_pengguna(email: str) -> list:
 
     return roles
 
-def get_songs_artist_songwriter(email: str) -> list:
+def get_songs_artist_songwriter(email: str, role: str) -> list:
     songs = []
     formatted_songs = []
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        cursor.execute(f"SELECT id FROM ARTIST WHERE email_akun = '{email}'")
+        if ("songwriter" in role):
+            cursor.execute(f"SELECT id FROM SONGWRITER WHERE email_akun = '{email}'")
+        else:
+            cursor.execute(f"SELECT id FROM ARTIST WHERE email_akun = '{email}'")
         id_json = cursor.fetchall()
+        print(id_json)
         id_searched = str(id_json[0][0])
 
         cursor.execute(f"SELECT * FROM SONG WHERE id_artist = '{id_searched}'")
