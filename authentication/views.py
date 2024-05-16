@@ -145,7 +145,6 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
         else:
             cursor.execute(f"SELECT id FROM ARTIST WHERE email_akun = '{email}'")
         id_json = cursor.fetchall()
-        print(id_json)
         id_searched = str(id_json[0][0])
 
         cursor.execute(f"SELECT * FROM SONG WHERE id_artist = '{id_searched}'")
@@ -156,8 +155,6 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
             cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
             tmp = cursor.fetchall()
             songs.append(tmp)
-
-        print(datas)
 
         for song_group in songs:
             group_list = []
