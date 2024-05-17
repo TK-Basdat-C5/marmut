@@ -1,6 +1,6 @@
-from datetime import date, datetime
+from datetime import date
 import uuid
-from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from utils.query import query
 from django.views.decorators.csrf import csrf_exempt
@@ -10,10 +10,14 @@ from authentication.views import check_premium, get_role_pengguna
 def podcast(request, id):
     if "email" not in request.session:
         return redirect('authentication:login')
+    
         
     email = request.session["email"]
     role = request.session["role"]
     roles = get_role_pengguna(email)
+    print(roles)
+    if('Podcaster' not in roles):
+        return HttpResponseForbidden("Anda Bukan Podcaster!!")
 
     query_konten = query(f"SELECT * FROM KONTEN WHERE ID = '{id}'")
     judul_podcast = query_konten[0][1]
@@ -95,6 +99,9 @@ def create_episode(request, id):
     role = request.session["role"]
     roles = get_role_pengguna(email)
 
+    if('Podcaster' not in roles):
+        return HttpResponseForbidden("Anda Bukan Podcaster!!")
+
     if request.method == 'POST':
         judul = request.POST.get('title')
         deskripsi = request.POST.get('deskripsi')
@@ -135,6 +142,9 @@ def create_podcast(request):
     email = request.session["email"]
     role = request.session["role"]
     roles = get_role_pengguna(email)
+
+    if('Podcaster' not in roles):
+        return HttpResponseForbidden("Anda Bukan Podcaster!!")
 
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -184,6 +194,9 @@ def daftar_podcast(request):
     email = request.session["email"]
     role = request.session["role"]
     roles = get_role_pengguna(email)
+
+    if('Podcaster' not in roles):
+        return HttpResponseForbidden("Anda Bukan Podcaster!!")
 
     get_podcast = query(f"SELECT id_konten FROM PODCAST WHERE EMAIL_PODCASTER='{email}'")
     id_podcast = []
