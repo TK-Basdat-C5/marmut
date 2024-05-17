@@ -46,7 +46,6 @@ def podcast(request, id):
         counter = 0
         for y in i:
             if counter == 2:
-                # Konversi durasi ke format jam dan menit
                 durasi = y
                 jam = durasi // 60
                 menit = durasi % 60
@@ -55,7 +54,6 @@ def podcast(request, id):
                 else:
                     episode.append(f"{menit} menit")
             elif counter == 3:
-                # Konversi tanggal rilis ke format DD/MM/YY
                 tmp_tanggal = y.strftime('%d/%m/%y')
                 episode.append(tmp_tanggal)
             else:
@@ -219,7 +217,6 @@ def daftar_podcast(request):
         else:
             podcast['total_durasi'] = f"{menit} menit"
         data_podcast.append(podcast)
-    print(data_podcast)
 
     context = {
         'is_logged_in': True,
@@ -253,8 +250,6 @@ def daftar_episode(request, id):
         podcast["durasi"] = i[4]
         podcast["tanggal_rilis"] = i[5]
         all_episode.append(podcast)
-
-    print(all_episode)
 
     context = {
         'is_logged_in': True,
