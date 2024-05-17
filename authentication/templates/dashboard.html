@@ -117,11 +117,11 @@
                         {% for song_list in songs %}
                             {% for song in song_list %}
                                 <tr>
-                                    <td>{{ song.id }}</td> <!-- UUID -->
-                                    <td>{{ song.title }}</td> <!-- Judul -->
-                                    <td>{{ song.release_date|date:"Y-m-d" }}</td> <!-- Tanggal Rilis -->
-                                    <td>{{ song.year }}</td> <!-- Tahun -->
-                                    <td>{{ song.duration }}</td> <!-- Durasi -->
+                                    <td>{{ song.id }}</td> 
+                                    <td>{{ song.title }}</td> 
+                                    <td>{{ song.release_date|date:"Y-m-d" }}</td> 
+                                    <td>{{ song.year }}</td> 
+                                    <td>{{ song.duration }}</td> 
                                 </tr>
                             {% endfor %}
                         {% endfor %}

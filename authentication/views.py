@@ -8,7 +8,6 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from utils.query import query
 import random
-import sqlite3
 import uuid
 
 def logout(request):
@@ -21,6 +20,8 @@ def logout(request):
     return render(request, "landing.html", context)
 
 def show_landingpage(request):
+    if "email" in request.session:
+        return redirect('authentication:dashboard')
     context = {
         "is_logged_in": False
     }
@@ -78,7 +79,6 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        print(role + " irpan gay")
         if role == "pengguna":
             cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
         else: 
@@ -148,7 +148,10 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
         id_json = cursor.fetchall()
         id_searched = str(id_json[0][0])
 
-        cursor.execute(f"SELECT * FROM SONG WHERE id_artist = '{id_searched}'")
+        if ("songwriter" in role):
+            cursor.execute(f"SELECT * FROM SONGWRITER_WRITE_SONG WHERE id_songwriter = '{id_searched}'")
+        else:
+            cursor.execute(f"SELECT * FROM SONG WHERE id_artist = '{id_searched}'")
         datas = cursor.fetchall()
 
         for data in datas:
@@ -259,3 +262,10 @@ def register_pengguna(request):
         "is_logged_in": False
     }
     return render(request, "register_pengguna.html", context)
+
+def check_premium(email):
+    checker = query(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+    if checker:
+        return True
+    else: 
+        return False
