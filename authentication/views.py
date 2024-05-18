@@ -20,18 +20,24 @@ def logout(request):
     context = {
         "is_logged_in": False
     }
+
     return render(request, "landing.html", context)
 
 def show_landingpage(request):
+    if "email" in request.session:
+        return redirect('authentication:dashboard')
+    
     context = {
         "is_logged_in": False
     }
+    
     return render(request, "landing.html", context)
 
 @csrf_exempt
 def login(request):
     if "email" in request.session:
         return redirect('authentication:dashboard')
+    
     context = {
         "is_logged_in": False
     }
@@ -76,13 +82,6 @@ def dashboard(request):
         if not user_data:
             return redirect('authentication:login')
         
-        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
-        premium = cursor.fetchone()
-        if premium:
-            is_premium = True
-        else:
-            is_premium = False
-        
         cursor.execute("set search_path to public")
 
     context = {
@@ -90,11 +89,17 @@ def dashboard(request):
         'user': user_data,
         'role': role,
         'roles': get_role_pengguna(email),
-        'is_premium': is_premium
+        'is_premium': is_premium(email)
     }
 
     return render(request, 'dashboard.html', context)
 
+def is_premium(email):
+    premium = query(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+    if premium:
+        return True
+    else:
+        return False
 
 def get_role_pengguna(email: str) -> list:
     roles = []
@@ -122,7 +127,7 @@ def register(request):
     context = {
         "is_logged_in": False
     }
-    return render(request, 'register.html')
+    return render(request, 'register.html', context)
 
 @csrf_exempt
 def register_label(request):
@@ -205,3 +210,13 @@ def register_pengguna(request):
         "is_logged_in": False
     }
     return render(request, "register_pengguna.html", context)
+
+def get_all_credential(request):
+    if "email" not in request.session:
+        return
+    email = request.session["email"]
+    role = request.session["role"]
+    # return email, role, roles, is_premium, is_logged_in (for context in navbar)
+    return email, role, get_role_pengguna(email), is_premium(email), True
+
+    

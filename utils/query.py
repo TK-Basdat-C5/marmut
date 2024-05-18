@@ -10,7 +10,7 @@ def map_cursor(cursor):
 def query(query_str: str):
     hasil = []
     with connection.cursor() as cursor:
-        cursor.execute("SET SEARCH_PATH TO 'u-league'")
+        cursor.execute("SET SEARCH_PATH TO marmut")
 
         try:
             cursor.execute(query_str)
@@ -24,5 +24,7 @@ def query(query_str: str):
         except Exception as e:
             # Ga tau error apa
             hasil = e
+        finally:
+            cursor.execute("SET SEARCH_PATH TO public")
 
     return hasil

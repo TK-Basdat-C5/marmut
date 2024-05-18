@@ -47,13 +47,16 @@
         .btn:hover {
             background-color: #0056b3;
         }
+        .error-message {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Login</h2>
         {% csrf_token %}
-        <form action="#" method="post">
+        <form method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
@@ -64,6 +67,9 @@
             </div>
             <button type="submit" class="btn">Log In</button>
         </form>
+        {% if message %}
+            <p class="error-message">{{ message }}</p>
+        {% endif %}
         <h5>Belum memiliki akun? Register di <a href="{% url 'authentication:register' %}">sini</a></h5>
     </div>
 </body>
