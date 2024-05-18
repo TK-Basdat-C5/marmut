@@ -229,7 +229,7 @@ def list_royalty(request):
     if role == "label":
         royalties = query(
             f"""
-            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, P.rate_royalti * S.total_play AS total_royalty
+            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, CAST(CAST(P.rate_royalti AS BIGINT) * CAST(S.total_play AS BIGINT) AS BIGINT) AS total_royalty
             FROM KONTEN K, SONG S, ALBUM A, LABEL L, PEMILIK_HAK_CIPTA P
             WHERE K.id = S.id_konten AND S.id_album = A.id AND A.id_label = L.id AND L.id_pemilik_hak_cipta = P.id AND L.email = '{email}'
             """
@@ -237,11 +237,11 @@ def list_royalty(request):
     else:
         royalties = query(
             f"""
-            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, P.rate_royalti * S.total_play AS total_royalty
+            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, CAST(CAST(P.rate_royalti AS BIGINT) * CAST(S.total_play AS BIGINT) AS BIGINT) AS total_royalty
             FROM KONTEN K, SONG S, ALBUM A, Artist Ar, PEMILIK_HAK_CIPTA P
             WHERE K.id = S.id_konten AND S.id_artist = Ar.id AND S.id_album = A.id AND Ar.id_pemilik_hak_cipta = P.id AND Ar.email_akun = '{email}'
             UNION
-            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, P.rate_royalti * S.total_play AS total_royalty
+            SELECT K.judul AS song_title, A.judul AS album_title, S.total_play, S.total_download, CAST(CAST(P.rate_royalti AS BIGINT) * CAST(S.total_play AS BIGINT) AS BIGINT) AS total_royalty
             FROM KONTEN K, SONG S, ALBUM A, SONGWRITER So, SONGWRITER_WRITE_SONG SW, PEMILIK_HAK_CIPTA P
             WHERE K.id = S.id_konten AND S.id_album = A.id AND SW.id_songwriter = So.id AND SW.id_song = S.id_konten AND So.id_pemilik_hak_cipta = P.id AND So.email_akun = '{email}'
             """
