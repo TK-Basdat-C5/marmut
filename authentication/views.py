@@ -108,6 +108,8 @@ def dashboard(request):
         context['songs'] = get_songs_artist_songwriter(email, "artist")
     elif("Songwriter" in roles):
         context['songs'] = get_songs_artist_songwriter(email, "songwriter")
+    elif("Podcaster" in roles):
+        context['podcasts'] = get_podcaster(email)
 
 
     return render(request, 'dashboard.html', context)
@@ -178,6 +180,22 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
         cursor.execute("set search_path to public")
 
     return formatted_songs
+
+def get_podcaster(email: str) -> list:
+    podcasts = []
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT id_konten FROM PODCAST WHERE email_podcaster = '{email}'")
+        datas = cursor.fetchall()
+
+        for data in datas:
+            id_konten = str(data[0])
+            cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
+            tmp = cursor.fetchall()
+            podcasts.append(tmp)
+        cursor.execute("set search_path to public")
+
+    return podcasts
 
 
 @csrf_exempt

@@ -60,7 +60,7 @@ def index(request):
             'jumlah_lagu': jumlah_lagu,
             'tanggal_dibuat': tanggal_dibuat_formated,
             'id': id_playlist,
-            'total_durasi': total_durasi,
+            'total_durasi': durasi_calcultaor(total_durasi),
         }
         
         playlists.append(playlist)  
@@ -128,7 +128,7 @@ def update_playlist(request, id_user_playlist):
         'jumlah_lagu': jumlah_lagu,
         'tanggal_dibuat': tanggal_dibuat_formatted,
         'id': id_playlist,
-        'total_durasi': total_durasi,
+        'total_durasi': durasi_calcultaor(total_durasi),
     }
     
     context.update(playlist)
