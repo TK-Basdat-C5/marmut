@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHART DETAIL</title>
+    <style>
+        .center-text {
+            text-align: center;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 1200px; /* Sesuaikan dengan lebar yang diinginkan */
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 12px;
+            text-align: center; /* Memusatkan teks dalam sel */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .center-btn {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="center-text">CHART DETAIL</h1>
+        <p><b>Tipe: {{ tipe }}</b></p>
+        <div class="center-btn">
+            <a href="javascript:history.back()" class="button">Kembali</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="5" class="center-text">DAFTAR LAGU</th>
+                </tr>
+                <tr>
+                    <th class="center-text">Judul Lagu</th>
+                    <th class="center-text">Oleh</th>
+                    <th class="center-text">Tanggal Rilis</th>
+                    <th class="center-text">Total Plays</th>
+                    <th class="center-text">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song in data_table %}
+                <tr>
+                    <td class="center-text">{{ song.judul }}</td>
+                    <td class="center-text">{{ song.email }}</td>
+                    <td class="center-text">{{ song.tanggal_rilis }}</td>
+                    <td class="center-text">{{ song.total_play }}</td>
+                    <td class="center-text"><a href="#" class="button">Lihat</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock %}

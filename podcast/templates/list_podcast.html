@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Podcast</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            max-width: 1200px; 
+            padding: 20px;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .center-btn {
+            display: flex;
+            justify-content: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function loadPodcasts() {
+            $.ajax({
+                url: "{% url 'podcast:get-podcast-list' %}",
+                method: "GET",
+                success: function(response) {
+                    if (response.status === 'not_logged_in') {
+                        window.location.href = "{% url 'authentication:login' %}";
+                    } else {
+                        let tableBody = $('#podcast-table-body');
+                        tableBody.empty();
+                        response.data_podcast.forEach(podcast => {
+                            const daftarEpisodeUrl = "{% url 'podcast:daftar-episode' 'PLACEHOLDER' %}".replace('PLACEHOLDER', podcast.id);
+                            const createEpisodeUrl = "{% url 'podcast:create-episode' 'PLACEHOLDER' %}".replace('PLACEHOLDER', podcast.id);
+
+                            tableBody.append(`
+                                <tr>
+                                    <td class="center-text">${podcast.judul}</td>
+                                    <td class="center-text">${podcast.total_episode}</td>
+                                    <td class="center-text">${podcast.total_durasi}</td>
+                                    <td class="center-btn">
+                                        <a href="${daftarEpisodeUrl}" class="btn">Lihat Daftar Episode</a>
+                                        <a href="${createEpisodeUrl}" class="btn">Tambah Episode</a>
+                                        <a class="btn" onclick="deletePodcast('${podcast.id}')">Hapus</a>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+                },
+                error: function() {
+                    alert("Error loading podcasts.");
+                }
+            });
+        }
+
+        function deletePodcast(id) {
+            if (confirm("Are you sure you want to delete this podcast?")) {
+                $.ajax({
+                    url: "{% url 'podcast:delete-podcast' 'PODCAST_ID' %}".replace('PODCAST_ID', id),
+                    method: "POST",
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            loadPodcasts();
+                        } else {
+                            alert("Error deleting podcast.");
+                        }
+                    },
+                    error: function() {
+                        alert("Error deleting podcast.");
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            loadPodcasts();
+            setInterval(loadPodcasts, 5000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="center-text">List Podcast</h1>
+        <div class="center-btn">
+            <a href="{% url 'podcast:create-podcast' %}" class="btn">Create Podcast</a>
+        </div>
+        <div class="episode-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="center-text">Judul</th>
+                        <th class="center-text">Jumlah Episode</th>
+                        <th class="center-text">Total Durasi</th>
+                        <th class="center-text">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="podcast-table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

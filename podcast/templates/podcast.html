@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Podcast</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .center-text {
+        text-align: center;
+        margin: 20px 0;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 10px;
+    }
+    .center-btn {
+        display: flex;
+        justify-content: center;
+    }
+    .podcast-detail {
+        background-color: #fff;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 1200px; /* Perlebar bagian putih */
+    }
+    .podcast-info p {
+        margin: 10px 0;
+    }
+    .podcast-info ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+<div class="podcast-detail">
+  <h1 class="center-text">Podcast Detail</h1>
+  
+  <div class="podcast-info">
+    <p><b>Judul</b>: {{ judul }}</p>
+    <p><b>Genre(s)</b>:</p>
+    <ul>
+        {% for genre in genres %}
+            <li>{{ genre }}</li>
+        {% endfor %}
+    </ul>
+    <p><b>Podcaster</b>: {{ podcaster }}</p>
+    <p><b>Total Durasi</b>: {{ total_durasi }}</p>
+    <p><b>Tanggal Rilis</b>: {{ tanggal_rilis }}</p>
+    <p><b>Tahun</b>: {{ tahun_rilis }}</p>
+    <div class="center-btn">
+        <a href="javascript:history.back()" class="btn">Kembali</a>
+    </div>
+  </div>
+  
+  <div class="episode-list">
+    <h2 class="center-text">Daftar Episode</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Judul Episode</th>
+                <th>Deskripsi</th>
+                <th>Durasi</th>
+                <th>Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for episode in episodes %}
+                <tr>
+                    <td>{{ episode.0 }}</td>
+                    <td>{{ episode.1 }}</td>
+                    <td>{{ episode.2 }}</td>
+                    <td>{{ episode.3 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
+{% endblock %}

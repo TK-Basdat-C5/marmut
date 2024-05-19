@@ -4,13 +4,6 @@ from main.views import *
 app_name = 'main'
 
 urlpatterns = [
-    path('podcast/', podcast, name='podcast'),
-    path('chart-detail/', detail_chart, name='chart-list'),
-    path('chart-list/', daftar_chart, name='chart-list'),
-    path('create-episode/', create_episode, name='create-episode'),
-    path('create-podcast/', create_podcast, name='create-podcast'),
-    path('list-podcast/', daftar_podcast, name='list-podcast'),
-    path('daftar-episode/', daftar_episode, name='daftar-episode'),
     path ('add_playlist/', add_playlist, name='add_playlist'),
     path('add_song_playlist/', add_song_playlist, name='add_song_playlist'),
     path('add_song/', add_song, name='add_song'),
