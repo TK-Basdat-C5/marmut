@@ -1,3 +1,8 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +46,7 @@
         tr:hover {
             background-color: #f2f2f2;
         }
-        .action-btns a {
+        .action-btns a{
             text-decoration: none;
             padding: 5px 10px;
             border-radius: 5px;
@@ -54,80 +59,65 @@
         .action-btns a:hover {
             background-color: #0056b3;
         }
+        .create {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            display: block;
+            text-align: center;
+            max-width: 200px; /* Control the width of the button */
+            margin: 20px auto; /* Center the button */
+        }
+        .create:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-
+{% if role != "label" %}
+<a class="create" href="{% url 'album_and_song:create_album'%}">Create New Album</a>
+{% endif %}
 <div class="container">
     <h2>List Album</h2>
+    {% if albums %}
     <table>
         <thead>
             <tr>
                 <th>Judul</th>
-                <th>Label</th>
+                {% if role == "pengguna" %}
+                    <th>Label</th>
+                {% endif %}
                 <th>Jumlah Lagu</th>
                 <th>Total Durasi</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
+            {% for album in albums %}
             <tr>
-                <td>Lover</td>
-                <td>Republic</td>
-                <td>18</td>
-                <td>62 menit</td>
+                <td>{{ album.judul }}</td>
+                {% if role == "pengguna" %}
+                    <td>{{ album.label }}</td>
+                    {% endif %}
+                <td>{{ album.jumlah_lagu }}</td>
+                <td>{{ album.total_durasi }}</td>
                 <td class="action-btns">
-                    <a href="#">Lihat Daftar Lagu</a>
-                    <a href="#">Tambah Lagu</a>
-                    <a href="#">Hapus</a>
+                    <a href="{% url 'album_and_song:detail_album' album.id %}">Lihat Daftar Lagu</a>
+                    {% if role == "pengguna" %}
+                        <a href="{% url 'album_and_song:add_song' album.id %}">Tambah Lagu</a>
+                    {% endif %}
+                    <a href="{% url 'album_and_song:delete_album' album.id %}">Hapus</a>
                 </td>
             </tr>
-            <tr>
-                <td>folklore</td>
-                <td>Republic</td>
-                <td>16</td>
-                <td>63 menit</td>
-                <td class="action-btns">
-                    <a href="#">Lihat Daftar Lagu</a>
-                    <a href="#">Tambah Lagu</a>
-                    <a href="#">Hapus</a>
-                </td>
-            </tr>
-            <tr>
-                <td>evermore</td>
-                <td>Republic</td>
-                <td>15</td>
-                <td>61 menit</td>
-                <td class="action-btns">
-                    <a href="#">Lihat Daftar Lagu</a>
-                    <a href="#">Tambah Lagu</a>
-                    <a href="#">Hapus</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Midnights - Til Dawn Edition</td>
-                <td>Republic</td>
-                <td>23</td>
-                <td>81 menit</td>
-                <td class="action-btns">
-                    <a href="#">Lihat Daftar Lagu</a>
-                    <a href="#">Tambah Lagu</a>
-                    <a href="#">Hapus</a>
-                </td>
-            </tr>
-            <tr>
-                <td>THE TORTURED POETS DEPARTMENT: THE ANTHOLOGY</td>
-                <td>Republic</td>
-                <td>31</td>
-                <td>122 menit</td>
-                <td class="action-btns">
-                    <a href="#">Lihat Daftar Lagu</a>
-                    <a href="#">Hapus</a>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p style="text-align: center;">Kamu belum berpartisipasi dalam sebuah album.</p>
+    {% endif %}
 </div>
-
 </body>
 </html>
+{% endblock %}

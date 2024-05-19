@@ -1,3 +1,8 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,57 +66,82 @@
         button:hover {
             background-color: #0056b3;
         }
+        .back-button {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #99a8b9;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #666b71;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Create Lagu</h2>
-    <form>
+    <h2>Add Lagu</h2>
+    {% csrf_token %}
+    <form method="post">
         <div class="form-group">
-            <label for="album">Album:</label>
-            <input type="text" id="album" name="album" readonly value="Album1">
+            <label for="judul">Album:</label>
+            <input type="text" id="judul" name="judul" value="{{ judul_album }}" readonly>
         </div>
         <div class="form-group">
-            <label for="judul">Judul:</label>
-            <input type="text" id="judul" name="judul" required>
+            <label for="judul_lagu">Judul Lagu:</label>
+            <input type="text" id="judul_lagu" name="judul_lagu" required>
         </div>
         <div class="form-group">
             <label for="artist">Artist:</label>
-            <select id="songwriters" name="songwriters">
-                <option value="artist1">artist1</option>
-                <option value="artist2">artist2</option>
-                <option value="artist3">artist3</option>
-                <option value="artist4">artist4</option>
-                <option value="artist5">artist5</option>
+            {% if 'Artist' in roles %}
+                <select id="artist" name="artist" required disabled>
+            {% else %}
+                <select id="artist" name="artist" required>
+            {% endif %}
+            {% for artist in artists %}
+                {% if artist.id == user_artist.0.id %}
+                    <option value="{{ artist.id }}" selected>{{ artist.nama }}</option>
+                {% else %}
+                    <option value="{{ artist.id }}">{{ artist.nama }}</option>
+                {% endif %}
+            {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="songwriters">Songwriter:</label>
-            <select id="songwriters" name="songwriters" multiple>
-                <option value="songwriter1">songwriter1</option>
-                <option value="songwriter2">songwriter2</option>
-                <option value="songwriter3">songwriter3</option>
-                <option value="songwriter4">songwriter4</option>
-                <option value="songwriter5">songwriter5</option>
+            <select id="songwriters" name="songwriters" multiple required>
+                {% for songwriter in songwriters %}
+                    {% if songwriter.id != user_songwriter.0.id %}
+                        <option value="{{ songwriter.id }}">{{ songwriter.nama }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="genres">Genre:</label>
-            <select id="genres" name="genres" multiple>
-                <option value="genre1">Rock</option>
-                <option value="genre2">Pop</option>
-                <option value="genre3">Jazz</option>
-                <option value="genre4">R&B</option>
-                <option value="genre5">Blues</option>
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre" multiple required>
+                {% for genre in genres %}
+                    <option value="{{ genre.genre }}">{{ genre.genre }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="durasi">Durasi:</label>
             <input type="text" id="durasi" name="durasi" required>
         </div>
-        <button type="submit">Submit</button>
+        <a href></a><button type="submit">Submit</button>
     </form>
+    <div class="back-button-container">
+        <a href="{% url 'album_and_song:detail_album' id_album %}" class="back-button">Kembali</a>
+    </div>
 </div>
 </body>
 </html>
+{% endblock %}

@@ -17,20 +17,24 @@ def logout(request):
     context = {
         "is_logged_in": False
     }
+
     return render(request, "landing.html", context)
 
 def show_landingpage(request):
     if "email" in request.session:
         return redirect('authentication:dashboard')
+
     context = {
         "is_logged_in": False
     }
+    
     return render(request, "landing.html", context)
 
 @csrf_exempt
 def login(request):
     if "email" in request.session:
         return redirect('authentication:dashboard')
+    
     context = {
         "is_logged_in": False
     }
@@ -50,23 +54,22 @@ def login(request):
                 user_label = cursor.fetchone()
 
                 if not user_pengguna and not user_label:
+                    cursor.execute("set search_path to public")
                     context["message"] = "Email atau Password Salah"
                     return render(request, "login.html", context)
                 
                 cursor.execute("set search_path to public")
                 request.session["email"] = email
+                print(request.session["email"])
                 if user_pengguna:
-                    cursor.execute("set search_path to public")
                     request.session["role"] = "pengguna"
                 elif user_label:
-                    cursor.execute("set search_path to public")
                     request.session["role"] = "label"
-                return dashboard(request)
+                return redirect('authentication:dashboard')
             except Exception as e:
                 msg = str(e).split('\n')[0]
                 print(msg)
                 return render(request, "login.html")
-                
             
     return render(request, "login.html", context)
 
@@ -79,6 +82,7 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
+
         if role == "pengguna":
             cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
         else: 
@@ -87,13 +91,6 @@ def dashboard(request):
 
         if not user_data:
             return redirect('authentication:login')
-        
-        cursor.execute(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
-        premium = cursor.fetchone()
-        if premium:
-            is_premium = True
-        else:
-            is_premium = False
         
         cursor.execute("set search_path to public")
 
@@ -104,7 +101,7 @@ def dashboard(request):
         'user': user_data,
         'role': role,
         'roles': roles,
-        'is_premium': is_premium
+        'is_premium': is_premium(email)
     }
 
     if("Artist" in roles):
@@ -115,6 +112,12 @@ def dashboard(request):
 
     return render(request, 'dashboard.html', context)
 
+def is_premium(email):
+    premium = query(f"SELECT * FROM PREMIUM WHERE email = '{email}'")
+    if premium:
+        return True
+    else:
+        return False
 
 def get_role_pengguna(email: str) -> list:
     roles = []
@@ -179,7 +182,10 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
 
 @csrf_exempt
 def register(request):
-    return render(request, 'register.html')
+    context = {
+        "is_logged_in": False
+    }
+    return render(request, 'register.html', context)
 
 @csrf_exempt
 def register_label(request):
@@ -269,3 +275,12 @@ def check_premium(email):
         return True
     else: 
         return False
+      
+def get_all_credential(request):
+    if "email" not in request.session:
+        return
+    email = request.session["email"]
+    role = request.session["role"]
+    # return email, role, roles, is_premium, is_logged_in (for context in navbar)
+    return email, role, get_role_pengguna(email), is_premium(email), True
+

@@ -42,6 +42,7 @@ def detail_chart(request, id, tipe):
             FROM (
                 SELECT id_konten, total_play
                 FROM SONG
+                WHERE total_play > 0
                 ORDER BY total_play DESC
                 LIMIT 20
             ) AS subquery;
