@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'podcast',
     'authentication',
     'album_and_song',
+    'song',
+    'playlist',
 ]
 
 MIDDLEWARE = [

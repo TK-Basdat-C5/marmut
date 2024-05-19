@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,7 @@
             list-style-type: none;
             margin: 0;
             padding: 20px;
-            background-color: #9500a8;
+            background-color: #FFCACA;
             overflow: hidden;
             position: relative;
         }
@@ -26,14 +27,14 @@
 
         nav li a {
             display: block;
-            color: white;
+            color: black;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
         }
 
         nav li a:hover {
-            background-color: #b261c7;
+            background-color: #ffe1e1;
         }
 
         .nav-item:last-child {
@@ -45,7 +46,7 @@
         }
 
         .nav-item:last-child a:hover {
-            background-color: #b261c7;
+            background-color: #ffe1e1;
         }
 
         .nav-item:first-child a {
@@ -53,7 +54,7 @@
         }
 
         .nav-item:first-child a:hover {
-            background-color: #b261c7;
+            background-color: #ffe1e1;
         }
 
         .container {
@@ -63,55 +64,56 @@
         nav input[type="text"] {
             padding: 10px;
             border: none;
-            background-color: #9500a8;
-            color: white;
-            border-bottom: 2px solid white; 
+            background-color: #FFCACA;
+            color: black;
+            border-bottom: 2px solid black; 
             font-size: 16px;
             outline: none;
         }
 
         nav input[type="text"]::placeholder {
-            color: white;
+            color: black;
         }
 
         nav input[type="text"]:focus {
-            border-bottom: 2px solid #b261c7;
+            border-bottom: 2px solid #f1a8a8;
         }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-
-                {% if is_logged_in %}
-                <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
-                    {% if role == "pengguna" %}
-                        <li class="nav-item"><a href="/chart/chart-list/">Chart</a></li>
-                        <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
-                        <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
-                        {% if is_premium %}
-                            <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
-                        {% endif %}
-                        
-                        {% if "Podcaster" in roles %}
-                            <li class="nav-item"><a href="/podcast/list-podcast/">Kelola Podcast</a></li>
-                        {% endif %}
-                        
-                        {% if "Artist" in roles or "Songwriter" in roles %}
-                          <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album & Songs</a></li>
-                          <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
-                        {% endif %} 
+            {% if is_logged_in %}
+            <li class="nav-item"><img src="{% static 'img/logo_marmut_black_horizontal.png' %}" height="50" width="160" style="margin-right: 10px;"></li>
+            <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
+                {% if role == "pengguna" %}
+                    <li class="nav-item"><a href="/chart/chart-list/">Chart</a></li>
+                    <li class="nav-item"><a href="/playlist/kelola_playlist/">Kelola Playlist</a></li>
+                    <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                    {% if is_premium %}
+                        <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
+                    {% endif %}
+                    
+                    {% if "Podcaster" in roles %}
+                        <li class="nav-item"><a href="/podcast/list-podcast/">Kelola Podcast</a></li>
+                    {% endif %}
+                    
+                    {% if "Artist" in roles or "Songwriter" in roles %}
+                        <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album & Songs</a></li>
+                        <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
+                    {% endif %} 
 
                     <li class="nav-item"><input type="text" placeholder="Search..." /></li>
                 {% else %}
                     <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album</a></li>
                     <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
-                    {% endif %}
+                {% endif %}
                 <li class="nav-item"><a href="/logout/">Logout</a></li>
                     
             {% else %}
+                <li class="nav-item"><img src="{% static 'img/logo_marmut_white_horizontal.png' %}" height="50" width="160" style="margin-right: 10px;"></li>
+                <li class="nav-item" style="float: right;"><a href="/register/">Registrasi</a></li>
                 <li class="nav-item"><a href="/login/">Login</a></li>
-                <li class="nav-item"><a href="/register/">Registrasi</a></li>
             {% endif %}
         </ul>
     </nav>
