@@ -16,7 +16,7 @@
             list-style-type: none;
             margin: 0;
             padding: 20px;
-            background-color: #FFCACA;
+            background-color: #9500a8;
             overflow: hidden;
             position: relative;
         }
@@ -27,14 +27,14 @@
 
         nav li a {
             display: block;
-            color: black;
+            color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
         }
 
         nav li a:hover {
-            background-color: #ffe1e1;
+            background-color: #b261c7;
         }
 
         .nav-item:last-child {
@@ -46,7 +46,7 @@
         }
 
         .nav-item:last-child a:hover {
-            background-color: #ffe1e1;
+            background-color: #b261c7;
         }
 
         .nav-item:first-child a {
@@ -54,7 +54,7 @@
         }
 
         .nav-item:first-child a:hover {
-            background-color: #ffe1e1;
+            background-color: #b261c7;
         }
 
         .container {
@@ -64,19 +64,19 @@
         nav input[type="text"] {
             padding: 10px;
             border: none;
-            background-color: #FFCACA;
-            color: black;
-            border-bottom: 2px solid black; 
+            background-color: #9500a8;
+            color: white;
+            border-bottom: 2px solid white; 
             font-size: 16px;
             outline: none;
         }
 
         nav input[type="text"]::placeholder {
-            color: black;
+            color: white;
         }
 
         nav input[type="text"]:focus {
-            border-bottom: 2px solid #f1a8a8;
+            border-bottom: 2px solid #b261c7;
         }
     </style>
 </head>
@@ -84,7 +84,7 @@
     <nav>
         <ul>
             {% if is_logged_in %}
-            <li class="nav-item"><img src="{% static 'img/logo_marmut_black_horizontal.png' %}" height="50" width="160" style="margin-right: 10px;"></li>
+            <li class="nav-item"><img src="{% static 'img/logo_marmut_white_horizontal.png' %}" height="50" width="160" style="margin-right: 10px;"></li>
             <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
                 {% if role == "pengguna" %}
                     <li class="nav-item"><a href="/chart/chart-list/">Chart</a></li>
