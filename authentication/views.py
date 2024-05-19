@@ -112,8 +112,7 @@ def dashboard(request):
         else:
             context['songs'] = get_songs_artist_songwriter(email, "songwriter")
     if("Podcaster" in roles):
-        context['podcasts'] = get_podcaster(email)
-
+      context['podcasts'] = get_podcaster(email)
 
     return render(request, 'dashboard.html', context)
 
