@@ -15,9 +15,7 @@ def podcast(request, id):
     email = request.session["email"]
     role = request.session["role"]
     roles = get_role_pengguna(email)
-    print(roles)
-    if('Podcaster' not in roles):
-        return HttpResponseForbidden("Anda Bukan Podcaster!!")
+
 
     query_konten = query(f"SELECT * FROM KONTEN WHERE ID = '{id}'")
     judul_podcast = query_konten[0][1]
