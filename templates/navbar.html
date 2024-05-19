@@ -103,8 +103,8 @@
 
                     <li class="nav-item"><input type="text" placeholder="Search..." /></li>
                 {% else %}
-                    <li class="nav-item"><a href="/album/">Kelola Album</a></li>
-                    <li class="nav-item"><a href="/royalties/">Cek Royalti</a></li>
+                    <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album</a></li>
+                    <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
                     {% endif %}
                 <li class="nav-item"><a href="/logout/">Logout</a></li>
                     

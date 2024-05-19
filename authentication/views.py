@@ -54,16 +54,18 @@ def login(request):
             user_label = cursor.fetchone()
 
             if not user_pengguna and not user_label:
+                cursor.execute("set search_path to public")
                 context["message"] = "Email atau Password Salah"
                 return render(request, "login.html", context)
             
             cursor.execute("set search_path to public")
             request.session["email"] = email
+            print(request.session["email"])
             if user_pengguna:
                 request.session["role"] = "pengguna"
             elif user_label:
                 request.session["role"] = "label"
-            return dashboard(request)
+            return redirect('authentication:dashboard')
             
     return render(request, "login.html", context)
 
@@ -76,7 +78,11 @@ def dashboard(request):
 
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
-        cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+
+        if role == "pengguna":
+            cursor.execute(f"SELECT * FROM AKUN WHERE email = '{email}'")
+        else: 
+            cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}'")
         user_data = cursor.fetchone()
 
         if not user_data:
