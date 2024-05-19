@@ -101,7 +101,7 @@ def dashboard(request):
         'user': user_data,
         'role': role,
         'roles': roles,
-        'is_premium': is_premium
+        'is_premium': is_premium(email)
     }
 
     if("Artist" in roles):

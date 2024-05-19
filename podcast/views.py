@@ -136,17 +136,17 @@ def create_episode(request, id):
 def create_podcast(request):
     if "email" not in request.session:
         return redirect('authentication:login')
-    
+
     email = request.session["email"]
     role = request.session["role"]
     roles = get_role_pengguna(email)
 
-    if('Podcaster' not in roles):
+    if 'Podcaster' not in roles:
         return HttpResponseForbidden("Anda Bukan Podcaster!!")
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        genres = request.POST.getlist('genre[]')
+        genres = request.POST.getlist('genre[]') 
 
         id_konten = str(uuid.uuid4())
         today = date.today()
@@ -167,14 +167,8 @@ def create_podcast(request):
             INSERT INTO PODCAST (id_konten, email_podcaster)
             VALUES ('{id_konten}', '{email}')""")
 
-        context = {
-            'is_logged_in': True,
-            'role': role,
-            'roles': roles,
-            'is_premium': check_premium(email)
-        }
         return redirect('podcast:list-podcast')
-    
+
     genres = query("SELECT DISTINCT genre FROM GENRE")
     context = {
         'is_logged_in': True,
@@ -184,6 +178,7 @@ def create_podcast(request):
         'genres': [genre[0] for genre in genres]
     }
     return render(request, "create_podcast.html", context)
+
 
 def daftar_podcast(request):
     if "email" not in request.session:
@@ -258,7 +253,14 @@ def daftar_episode(request, id):
         podcast["id_konten"] = str(i[1])
         podcast["judul"] = i[2]
         podcast["deskripsi"] = i[3]
-        podcast["durasi"] = i[4]
+        total_durasi = i[4]
+        jam = total_durasi // 60
+        menit = total_durasi % 60
+        if jam > 0:
+            podcast['durasi'] = f"{jam} jam {menit} menit"
+        else:
+            podcast['durasi'] = f"{menit} menit"
+
         podcast["tanggal_rilis"] = i[5]
         all_episode.append(podcast)
 
@@ -322,14 +324,20 @@ def get_episode_list(request, id):
     query_episode = query(f"SELECT * FROM EPISODE WHERE ID_KONTEN_PODCAST='{id}'")
     all_episode = []
     for i in query_episode:
+        total_durasi = i[4]
+        jam = total_durasi // 60
+        menit = total_durasi % 60
+        durasi_formatted = f"{jam} jam {menit} menit" if jam > 0 else f"{menit} menit"
+        
         episode = {
             "id_episode": str(i[0]),
             "id_konten": str(i[1]),
             "judul": i[2],
             "deskripsi": i[3],
-            "durasi": i[4],
+            "durasi": durasi_formatted,
             "tanggal_rilis": i[5].strftime('%Y-%m-%d'), 
         }
         all_episode.append(episode)
 
     return JsonResponse({'all_episode': all_episode})
+
