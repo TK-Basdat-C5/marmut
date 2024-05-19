@@ -113,9 +113,15 @@ def dashboard(request):
             context['songs'] = get_songs_artist_songwriter(email, "songwriter")
     if("Podcaster" in roles):
         context['podcasts'] = get_podcaster(email)
-
+    if(role == "label"):
+        context['albums'] = get_album_label(email)
 
     return render(request, 'dashboard.html', context)
+
+def get_album_label(email):
+    album = query(f"SELECT A.judul, A.jumlah_lagu, L.nama, A.total_durasi FROM ALBUM A, LABEL L WHERE A.id_label = L.id AND L.email = '{email}'")
+    return album
+    
 
 def is_premium(email):
     premium = query(f"SELECT * FROM PREMIUM WHERE email = '{email}'")

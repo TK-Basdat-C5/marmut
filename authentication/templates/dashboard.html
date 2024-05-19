@@ -142,16 +142,31 @@
         {% endif %}
     {% endif %}
 
-    {% if "Label" in roles %}
+    {% if role == 'label' %}
         <h2>Daftar Album</h2>
         {% if albums|length > 0 %}
-            <ul>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Jumlah Lagu</th>
+                    <th>Nama Label</th>
+                    <th>Total Durasi</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for album in albums %}
-                    <li>{{ album }}</li>
+                    <tr>
+                        <td>{{ album.judul }}</td> 
+                        <td>{{ album.jumlah_lagu }}</td> 
+                        <td>{{ album.nama }}</td> 
+                        <td>{{ album.total_durasi }}</td>
+                    </tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+        </table>
         {% else %}
-            <p>Belum Memiliki Album</p>
+            <p>Belum Memproduksi album</p>
         {% endif %}
     {% endif %}
 </div>
