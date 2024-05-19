@@ -53,19 +53,23 @@ def login(request):
                 cursor.execute(f"SELECT * FROM LABEL WHERE email = '{email}' AND password = '{password}'")
                 user_label = cursor.fetchone()
 
-            if not user_pengguna and not user_label:
+                if not user_pengguna and not user_label:
+                    cursor.execute("set search_path to public")
+                    context["message"] = "Email atau Password Salah"
+                    return render(request, "login.html", context)
+                
                 cursor.execute("set search_path to public")
-                context["message"] = "Email atau Password Salah"
-                return render(request, "login.html", context)
-            
-            cursor.execute("set search_path to public")
-            request.session["email"] = email
-            print(request.session["email"])
-            if user_pengguna:
-                request.session["role"] = "pengguna"
-            elif user_label:
-                request.session["role"] = "label"
-            return redirect('authentication:dashboard')
+                request.session["email"] = email
+                print(request.session["email"])
+                if user_pengguna:
+                    request.session["role"] = "pengguna"
+                elif user_label:
+                    request.session["role"] = "label"
+                return redirect('authentication:dashboard')
+            except Exception as e:
+                msg = str(e).split('\n')[0]
+                print(msg)
+                return render(request, "login.html")
             
     return render(request, "login.html", context)
 
