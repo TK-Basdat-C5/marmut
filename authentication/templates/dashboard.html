@@ -35,31 +35,22 @@
         color: #007bff;
     }
     .table {
-        display: flex;
-        flex-direction: column;
-        border-collapse: collapse;
         width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    .table th, .table td {
         border: 1px solid #ddd;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-    .row {
-        display: flex;
-        border-bottom: 1px solid #ddd;
-    }
-    .cell {
-        flex: 1;
         padding: 10px;
         text-align: center;
-        border-right: 1px solid #ddd;
         color: #000;
     }
-    .cell:last-child {
-        border-right: none;
-    }
-    .header .cell {
+    .table th {
         background-color: #f2f2f2;
         font-weight: bold;
+    }
+    .table tr:nth-child(even) {
+        background-color: #f9f9f9;
     }
 </style>
 </head>
@@ -95,75 +86,73 @@
 </div>
 
 <div class="content">
-    
-        <h2>Daftar Playlist</h2>
-        {% if playlists|length > 0 %}
-            <ul>
-                {% for playlist in playlists %}
-                    <li>{{ playlist }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Belum Memiliki Playlist</p>
-        {% endif %}
+    <h2>Daftar Playlist</h2>
+    {% if playlists|length > 0 %}
+        <ul>
+            {% for playlist in playlists %}
+                <li>{{ playlist }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Belum Memiliki Playlist</p>
+    {% endif %}
 
-        {% if "Artist" in roles or "Songwriter" in roles %}
-            <h2>Daftar Lagu</h2>
-            {% if songs %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Judul</th>
-                            <th>Tanggal Rilis</th>
-                            <th>Tahun</th>
-                            <th>Durasi (menit)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for song_list in songs %}
-                            {% for song in song_list %}
-                                <tr>
-                                    <td>{{ song.id }}</td> 
-                                    <td>{{ song.title }}</td> 
-                                    <td>{{ song.release_date|date:"Y-m-d" }}</td> 
-                                    <td>{{ song.year }}</td> 
-                                    <td>{{ song.duration }}</td> 
-                                </tr>
-                            {% endfor %}
+    {% if "Artist" in roles or "Songwriter" in roles %}
+        <h2>Daftar Lagu</h2>
+        {% if songs %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Judul</th>
+                        <th>Tanggal Rilis</th>
+                        <th>Tahun</th>
+                        <th>Durasi (menit)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song_list in songs %}
+                        {% for song in song_list %}
+                            <tr>
+                                <td>{{ song.id }}</td> 
+                                <td>{{ song.title }}</td> 
+                                <td>{{ song.release_date|date:"Y-m-d" }}</td> 
+                                <td>{{ song.year }}</td> 
+                                <td>{{ song.duration }}</td> 
+                            </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>Belum Memiliki Lagu</p>
-            {% endif %}
-        {% endif %}
-
-        {% if "Podcaster" in roles %}
-            <h2>Daftar Podcast</h2>
-            {% if podcasts|length > 0 %}
-                <ul>
-                    {% for podcast in podcasts %}
-                        <li>{{ podcast }}</li>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>Belum Memiliki Podcast</p>
-            {% endif %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Belum Memiliki Lagu</p>
         {% endif %}
+    {% endif %}
 
-        {% if "Label" in roles %}
-        <h2>Daftar Album</h2>
-        {% if albums|length > 0 %}
+    {% if "Podcaster" in roles %}
+        <h2>Daftar Podcast</h2>
+        {% if podcasts|length > 0 %}
             <ul>
-                {% for podcast in albums %}
+                {% for podcast in podcasts %}
                     <li>{{ podcast }}</li>
                 {% endfor %}
             </ul>
         {% else %}
             <p>Belum Memiliki Podcast</p>
         {% endif %}
+    {% endif %}
 
+    {% if "Label" in roles %}
+        <h2>Daftar Album</h2>
+        {% if albums|length > 0 %}
+            <ul>
+                {% for album in albums %}
+                    <li>{{ album }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Belum Memiliki Album</p>
+        {% endif %}
     {% endif %}
 </div>
 
