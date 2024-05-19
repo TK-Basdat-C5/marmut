@@ -106,11 +106,13 @@ def dashboard(request):
 
     if("Artist" in roles):
         context['songs'] = get_songs_artist_songwriter(email, "artist")
-    elif("Songwriter" in roles):
-        context['songs'] = get_songs_artist_songwriter(email, "songwriter")
-    elif("Podcaster" in roles):
-        context['podcasts'] = get_podcaster(email)
-
+    if("Songwriter" in roles):
+        if 'songs' in context:
+            context['songs'] = context['songs'] + get_songs_artist_songwriter(email, "songwriter")
+        else:
+            context['songs'] = get_songs_artist_songwriter(email, "songwriter")
+    if("Podcaster" in roles):
+      context['podcasts'] = get_podcaster(email)
 
     return render(request, 'dashboard.html', context)
 
@@ -196,7 +198,6 @@ def get_podcaster(email: str) -> list:
         cursor.execute("set search_path to public")
 
     return podcasts
-
 
 @csrf_exempt
 def register(request):

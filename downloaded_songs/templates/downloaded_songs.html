@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langganan Paket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            color: #000;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            padding: 0 20px;
+        }
+
+        .content h2 {
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .paket-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .paket-table th {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .paket-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Daftar Lagu</h1>
+</div>
+
+<div class="content">
+    <table class="paket-table">
+        <thead>
+            <tr>
+                <th>Judul Lagu</th>
+                <th>Oleh</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for downloaded_song in downloaded_songs %}
+                <tr>
+                    <td>{{ downloaded_song.judul }}</td>
+                    <td>{{ downloaded_song.nama_artis }}</td>
+                    <td>
+                        <a href="" class="btn-primary">Lihat</a>
+                        <a href="{% url 'delete_downloaded_song' downloaded_song.id_song|stringformat:"s" %}" class="btn-primary">Hapus</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>        
+        
+    </table>
+    <a href="/dashboard" class="btn-primary">Kembali</a>
+</div>
+
+</body>
+</html>
+
+{% endblock %}
