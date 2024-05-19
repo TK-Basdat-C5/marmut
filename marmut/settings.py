@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'chart',
     'podcast',
     'authentication',
+    'song',
+    'playlist',
 ]
 
 MIDDLEWARE = [

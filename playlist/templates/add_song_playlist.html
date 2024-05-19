@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}
+    Tambah Lagu
+{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Lagu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+        }
+        .form-container {
+            width: 80%;
+            margin: 50px auto;
+        }
+        .form-field {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-field select,
+        .form-field input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-submit:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>TAMBAH LAGU</h2>
+        <form method="post" action="{% url 'playlist:add_song' id_playlist %}">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="lagu">Lagu:</label>
+                <select id="lagu" name="id_konten">
+                    {% for song in songs %}
+                        <option value="{{ song.id_konten }}">{{ song.judul_konten }} - {{ song.nama_artis }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="hidden" name="id_playlist" value="{{ id_playlist }}">
+            <div class="add-song-button">
+                <button type="submit">Tambah Lagu</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    document.getElementById('lagu').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        var id_konten = selectedOption.value;
+        document.querySelector('input[name="id_konten"]').value = id_konten;
+    });
+</script>
+{% endblock %}
