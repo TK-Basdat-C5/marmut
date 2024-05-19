@@ -57,7 +57,8 @@
 <body>
     <div class="form-container">
         <h2>TAMBAH PLAYLIST</h2>
-        <form action="submit_playlist.php" method="post">
+        <form action="{% url 'playlist:add_playlist' %}" method="post">
+            {% csrf_token %}
             <div class="form-field">
                 <label for="judul">Judul:</label>
                 <input type="text" id="judul" name="judul" placeholder="Masukkan judul playlist" required>

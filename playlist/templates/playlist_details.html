@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Lagu dan Playlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .song-playlist-detail {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .playlist-info {
+            margin-bottom: 20px;
+        }
+
+        .playlist-info p {
+            margin: 5px 0;
+        }
+
+        .song-playlist-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .song-playlist-list th,
+        .song-playlist-list td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .song-playlist-list th {
+            background-color: #f2f2f2;
+        }
+
+        .song-playlist-list tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .song-playlist-list tr:hover {
+            background-color: #ddd;
+        }
+
+        .song-playlist-list td a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .song-playlist-list td a:hover {
+            text-decoration: underline;
+        }
+        .add-song-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-song-button button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .add-song-button button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="song-playlist-detail">
+        <h1 class="center-text">User Playlist</h1>
+        
+        <div class="playlist-info">
+            <p><strong>Judul:</strong> {{ playlist.judul }}</p>
+            <p><strong>Pembuat:</strong> {{ nama }}</p>
+            <p><strong>Jumlah Lagu:</strong> {{ playlist.jumlah_lagu}}</p>
+            <p><strong>Total Durasi:</strong> {{ playlist.total_durasi}}</p>
+            <p><strong>Tanggal Dibuat:</strong> {{ playlist.tanggal_dibuat }}</p>
+            <p><strong>Deskripsi:</strong> {{ playlist.deskripsi }}</p>
+        </div>
+        <div class="add-song-button">
+            <form id="playPlaylistForm" action="{% url 'playlist:play_user_playlist' playlist.id_user_playlist %}" method="POST" style="display:none;">
+                {% csrf_token %}
+            </form>
+            <a href="#" onclick="document.getElementById('playPlaylistForm').submit(); return false;">
+                <button>Shuffle Play</button>
+            </a>
+        </div>
+        
+        <div class="add-song-button">
+            <button onclick="history.back()" class="btn">Kembali</button>
+        </div>        
+        <div class="add-song-button">
+            <a href="{% url 'playlist:view_song' playlist.id_user_playlist %}">
+                <button>Tambah Lagu</button>
+            </a>
+        </div>        
+        </div>
+        <div class="song-playlist-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Artis / Pembuat</th>
+                        <th>Durasi</th>
+                        <th>Tanggal Rilis</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song_id, song_details in konten.items %}
+                        <tr>
+                            <td>{{ song_details.judul_konten }}</td>
+                            <td>{{ song_details.nama_artis }}</td>
+                            <td>{{song_details.total_durasi_konten}} </td>
+                            <td>{{ song_details.tanggal_rilis_konten }}</td>
+                            <td>
+                                <a href="{% url 'song:play_song' song_details.id_konten %}">Lihat</a> |
+                                <a href="{% url 'song:play_song' song_details.id_konten %}">Play</a> |
+                                <button class="btn" onclick="deleteSong('{{ playlist.id }}', '{{ song_details.id_konten }}')">Hapus</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <!-- Add more rows as needed -->
+                </tbody>                
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    function deleteSong(id_playlist,id_konten) {
+        if (confirm('Are you sure you want to delete this song?')) {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'playlist:delete_song' %}",
+                data: {
+                    'id_konten': id_konten,
+                    'id_playlist': id_playlist,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}', 
+                },
+                success: function(response) {
+                    alert(response.message);
+                    location.reload(); 
+                },
+                error: function(xhr, errmsg, err) {
+                    alert('Error deleting song.');
+                }
+            });
+        }
+    }
+</script>
+
+
+</html>
+
+
+
+{% endblock %}
