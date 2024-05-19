@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{%block content%}
+{% block content %}
 
 <!DOCTYPE html>
 <html lang="id">
@@ -131,12 +131,29 @@
 
     {% if "Podcaster" in roles %}
         <h2>Daftar Podcast</h2>
-        {% if podcasts|length > 0 %}
-            <ul>
-                {% for podcast in podcasts %}
-                    <li>{{ podcast }}</li>
-                {% endfor %}
-            </ul>
+        {% if podcasts %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Tanggal Rilis</th>
+                        <th>Tahun</th>
+                        <th>Durasi (menit)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for podcast_list in podcasts %}
+                        {% for podcast in podcast_list %}
+                            <tr>
+                                <td>{{ podcast.title }}</td> 
+                                <td>{{ podcast.release_date|date:"Y-m-d" }}</td> 
+                                <td>{{ podcast.year }}</td> 
+                                <td>{{ podcast.duration }}</td> 
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
             <p>Belum Memiliki Podcast</p>
         {% endif %}
@@ -159,4 +176,4 @@
 </body>
 </html>
 
-{%endblock%}
+{% endblock %}
