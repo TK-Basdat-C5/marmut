@@ -60,8 +60,8 @@ def login(request):
                 
                 cursor.execute("set search_path to public")
                 request.session["email"] = email
-                print(request.session["email"])
                 if user_pengguna:
+                    query(f"SELECT check_premium_status('{email}')")
                     request.session["role"] = "pengguna"
                 elif user_label:
                     request.session["role"] = "label"
