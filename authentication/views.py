@@ -192,6 +192,7 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
 
 def get_podcaster(email: str) -> list:
     podcasts = []
+    formatted_podcasts = []
     with conn.cursor() as cursor:
         cursor.execute("set search_path to marmut")
         cursor.execute(f"SELECT id_konten FROM PODCAST WHERE email_podcaster = '{email}'")
@@ -202,9 +203,23 @@ def get_podcaster(email: str) -> list:
             cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
             tmp = cursor.fetchall()
             podcasts.append(tmp)
+
+        for podcast_group in podcasts:
+            group_list = []
+            for podcast in podcast_group:
+                podcast_dict = {
+                    'id': podcast[0],
+                    'title': podcast[1],
+                    'release_date': podcast[2],
+                    'year': podcast[3],
+                    'duration': podcast[4]
+                }
+                group_list.append(podcast_dict)
+            formatted_podcasts.append(group_list)
         cursor.execute("set search_path to public")
 
-    return podcasts
+    return formatted_podcasts
+
 
 @csrf_exempt
 def register(request):
