@@ -258,7 +258,14 @@ def daftar_episode(request, id):
         podcast["id_konten"] = str(i[1])
         podcast["judul"] = i[2]
         podcast["deskripsi"] = i[3]
-        podcast["durasi"] = i[4]
+        total_durasi = i[4]
+        jam = total_durasi // 60
+        menit = total_durasi % 60
+        if jam > 0:
+            podcast['durasi'] = f"{jam} jam {menit} menit"
+        else:
+            podcast['durasi'] = f"{menit} menit"
+
         podcast["tanggal_rilis"] = i[5]
         all_episode.append(podcast)
 
@@ -322,14 +329,20 @@ def get_episode_list(request, id):
     query_episode = query(f"SELECT * FROM EPISODE WHERE ID_KONTEN_PODCAST='{id}'")
     all_episode = []
     for i in query_episode:
+        total_durasi = i[4]
+        jam = total_durasi // 60
+        menit = total_durasi % 60
+        durasi_formatted = f"{jam} jam {menit} menit" if jam > 0 else f"{menit} menit"
+        
         episode = {
             "id_episode": str(i[0]),
             "id_konten": str(i[1]),
             "judul": i[2],
             "deskripsi": i[3],
-            "durasi": i[4],
+            "durasi": durasi_formatted,
             "tanggal_rilis": i[5].strftime('%Y-%m-%d'), 
         }
         all_episode.append(episode)
 
     return JsonResponse({'all_episode': all_episode})
+

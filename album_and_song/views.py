@@ -84,6 +84,7 @@ def create_album(request):
 
         return render(request, 'create_album.html', context)
 
+@csrf_exempt
 def add_song(request, id_album):
     if "email" not in request.session:
         return redirect('authentication:login')
@@ -107,6 +108,9 @@ def add_song(request, id_album):
         with conn.cursor() as cursor:
             cursor.execute('set search_path to marmut')
             cursor.execute(f"INSERT INTO KONTEN (id, judul, tanggal_rilis, tahun, durasi) values ('{random_id_konten}', '{judul_lagu}', '{current_date}', '{tahun}', '{durasi}')")
+            if "Artist" in roles:
+                cursor.execute(f"SELECT id FROM ARTIST WHERE email_akun = '{email}'")
+                artist_id = cursor.fetchone()[0]
             cursor.execute(f"INSERT INTO SONG (id_konten, id_artist, id_album, total_play, total_download) values ('{random_id_konten}', '{artist_id}', '{id_album}', '{0}', '{0}')")
             for genre in genres:
                 cursor.execute(f"INSERT INTO GENRE (id_konten, genre) values ('{random_id_konten}', '{genre}')")
@@ -114,11 +118,13 @@ def add_song(request, id_album):
                 cursor.execute(f"INSERT INTO SONGWRITER_WRITE_SONG (id_songwriter, id_song) values ('{songwriter_id}', '{random_id_konten}')")
             if "Songwriter" in roles:
                 songwriter_id = query(f"SELECT S.id FROM AKUN Ak, SONGWRITER S WHERE email = '{email}' AND S.email_akun = Ak.email")
+                cursor.execute('set search_path to marmut')
                 cursor.execute(f"INSERT INTO SONGWRITER_WRITE_SONG (id_songwriter, id_song) values ('{songwriter_id[0][0]}', '{random_id_konten}')")
             cursor.execute('set search_path to public')
 
         return redirect('album_and_song:detail_album', id_album)
     else:
+        album = query(f"SELECT judul FROM ALBUM WHERE id = '{id_album}'")
         artists = query("SELECT Ar.id, Ak.nama FROM ARTIST Ar, AKUN Ak WHERE Ar.email_akun = Ak.email ORDER BY Ak.nama ASC")
         songwriters = query("SELECT S.id, A.nama FROM SONGWRITER S, AKUN A WHERE S.email_akun = A.email")
         genres = query("SELECT DISTINCT genre FROM GENRE ORDER BY genre ASC")
@@ -135,7 +141,8 @@ def add_song(request, id_album):
             'is_logged_in': is_logged_in,
             'role': role,
             'is_premium': is_premium,
-            'id_album': id_album
+            'id_album': id_album,
+            'judul_album': album[0][0]
         }
 
         return render(request, 'create_lagu.html', context)
@@ -200,7 +207,6 @@ def detail_album(request, id_album):
 
     if role == "pengguna" and "Artist" not in roles and "Songwriter" not in roles:
         return redirect('authentication:dashboard')
-
         
     album_details = query(f"SELECT judul FROM ALBUM WHERE id = '{id_album}'")
     songs = query(f"SELECT S.id_konten, K.judul, K.durasi, S.total_play, S.total_download FROM SONG S, KONTEN K WHERE S.id_album = '{id_album}' AND S.id_konten = K.id")
@@ -223,7 +229,7 @@ def list_royalty(request):
     
     email, role, roles, is_premium, is_logged_in = get_all_credential(request)
 
-    if role == "pengguna" and "Artist" not in roles and "Songwriter" not in roles or role == "label":
+    if role == "pengguna" and "Artist" not in roles and "Songwriter" not in roles:
         return redirect('authentication:dashboard')
 
     if role == "label":
