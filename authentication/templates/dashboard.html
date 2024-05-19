@@ -70,11 +70,13 @@
 </div>
 
 <div class="profile-info">
-    <p><strong>Nama:</strong> {{ user.2 }}</p>
-    <p><strong>Email:</strong> {{ user.0 }}</p>
     {% if role == "label" %}
-        <p><strong>Kontak:</strong> {{ user.3 }}</p>
+        <p><strong>Nama:</strong> {{ user.1 }}</p>
+        <p><strong>Email:</strong> {{ user.2 }}</p>
+        <p><strong>Kontak:</strong> {{ user.4 }}</p>
     {% else %}
+        <p><strong>Nama:</strong> {{ user.2 }}</p>
+        <p><strong>Email:</strong> {{ user.0 }}</p>
         <p><strong>Kota Asal:</strong> {{ user.7 }}</p>
         {% if user.3 == 0 %}
             <p><strong>Gender:</strong> Perempuan</p>

@@ -23,4 +23,5 @@ urlpatterns = [
     path('podcast/', include('podcast.urls')),
     path('main/', include('main.urls')),
     path('chart/', include('chart.urls')),
+    path('manage/', include('album_and_song.urls')),
 ]
