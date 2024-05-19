@@ -88,9 +88,9 @@
                     {% if role == "pengguna" %}
                         <li class="nav-item"><a href="/chart/chart-list/">Chart</a></li>
                         <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
-                        <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                        <li class="nav-item"><a href="/subscription/">Langganan Paket</a></li>
                         {% if is_premium %}
-                            <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
+                            <li class="nav-item"><a href="{% url 'downloaded_songs:downloaded_songs' %}">Kelola Downloaded Songs</a></li>
                         {% endif %}
                         
                         {% if "Podcaster" in roles %}
@@ -102,7 +102,12 @@
                           <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
                         {% endif %} 
 
-                    <li class="nav-item"><input type="text" placeholder="Search..." /></li>
+                            <li class="nav-item">
+                                <form action="{% url 'search' %}" method="GET">
+                                    <input type="text" name="q" placeholder="Search..." />
+                                    <button type="submit">CARI</button>
+                                </form>
+                             </li>
                 {% else %}
                     <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album</a></li>
                     <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
