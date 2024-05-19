@@ -84,7 +84,7 @@
         if (confirm('Apakah Anda yakin ingin menghapus episode ini?')) {
             $.ajax({
                 url: `{% url 'podcast:delete-episode' 'PLACEHOLDER' %}`.replace('PLACEHOLDER', id),
-                method: "POST",  // Ganti dengan POST karena itu yang digunakan dalam view
+                method: "POST",  
                 success: function(response) {
                     if (response.status === 'success') {
                         loadEpisodes();
@@ -104,6 +104,7 @@
         setInterval(loadEpisodes, 30000);
     });
 </script>
+
 </head>
 <body>
 <div class="podcast-detail">
