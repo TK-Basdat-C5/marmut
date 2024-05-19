@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block title %}
+    Add Song to Playlist
+{% endblock %}<!DOCTYPE html>
+
+{% block content %}
+
+
+<html lang="en">
+  
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Song to Playlist</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    text-align: center;
+  }
+  form {
+    margin-top: 20px;
+  }
+  select {
+    padding: 5px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;  /* Adjust this value as needed */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+</style>
+
+</head>
+
+<body>
+  <h2>ADD SONG TO USER PLAYLIST</h2>
+  <div class="song-info">
+      <p><strong>Judul:</strong> {{judul }}</p>
+      <p><strong>Genre(s):</strong></p>
+      <ul>
+          {% for genre in genres %}
+          <li>{{ genre }}</li>
+          {% endfor %}
+      </ul>
+      <p><strong>Artist:</strong> {{ artist}}</p>
+      <p><strong>Songwriter(s):</strong></p>
+      <ul>
+          {% for songwriter in songwriters %}
+            <li>{{ songwriter }}</li>
+          {% endfor %}
+      </ul>
+      <p><strong>Durasi:</strong> {{ durasi }} menit</p>
+      <p><strong>Tanggal Rilis:</strong> {{ tanggal_rilis}}</p>
+      <p><strong>Tahun:</strong> {{ tahun }}</p>
+      <p><strong>Total Play:</strong> <span id="totalPlay">{{ total_play }}</span></p>
+      <p><strong>Total Downloads:</strong> {{ total_download }}</p>
+      <p><strong>Album:</strong> {{ album }}</p>
+      <input type="range" id="progress" name="progress" min="0" max="100">
+      <button id="playButton">Play</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#playlistModal">
+        Add to Playlist
+      </button>
+      {% if is_premium %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#downloadModal" id="downloadButton">
+          Download
+        </button>
+      {% endif %}
+      <button type="button" onclick="window.history.back()">KEMBALI</button>
+  </div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="playlistModal" tabindex="-1" role="dialog" aria-labelledby="playlistModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="playlistModalLabel">Add Song to Playlist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'song:add_to_playlist' song_id=song_id %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <h2>ADD SONG TO USER PLAYLIST</h2>
+          <p><strong>Judul:</strong> {{judul }}</p>
+          <p><strong>Artist:</strong> {{ artist}}</p>
+          <label for="playlist">Playlist:</label>
+          <select id="playlist" name="playlist_id" required>
+            {% for playlist in playlists %}
+              <option value="{{ playlist.id_playlist }}">{{ playlist.judul }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">KEMBALI</button>
+          <button type="submit" class="btn btn-primary">TAMBAH</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+<!-- Second Modal -->
+<div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="downloadModalLabel">Download Song</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="downloadMessage"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="backButton">KEMBALI</button>
+        <button type="button" class="btn btn-primary" id="goToButton">KE DAFTAR DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function(){
+    $("#downloadButton").on("click", function(event){
+      event.preventDefault();
+
+      $.ajax({
+        url: '/song/download_song/',
+        type: 'POST',
+        data: JSON.stringify({song_id: '{{ song_id }}'}),
+        success: function(data) {
+          if (data.success) {
+            $("#downloadMessage").text('Berhasil mengunduh Lagu dengan judul ‘Song1’!');
+            $("#goToButton").text('KE DAFTAR DOWNLOAD');
+          } else {
+            $("#downloadMessage").text('Lagu dengan judul ‘Song1’ sudah pernah di unduh!');
+            $("#goToButton").text('KE PLAYLIST');
+          }
+          $("#downloadModal").modal('show');
+        }
+      });
+    });
+  });
+
+
+
+  document.getElementById('playButton').addEventListener('click', function() {
+    var progress = document.getElementById('progress').value;
+    var songId = '{{ song_id }}';
+    var email = '{{ email }}';
+    if (progress > 70) {
+        // Perform an AJAX request to notify the server to update the total play count
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/song/update_total_play/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+              // Update the total play count on the page
+              var totalPlayElement = document.getElementById('totalPlay');  
+              var response = JSON.parse(xhr.responseText);
+              totalPlayElement.textContent = response.new_total_play;  
+          }
+        };
+        xhr.send(JSON.stringify({ progress: progress, song_id: songId, email: email }));
+    }
+});
+
+
+</script>
+
+{% endblock %}

@@ -78,7 +78,9 @@
                     <td class="center-text">{{ song.email }}</td>
                     <td class="center-text">{{ song.tanggal_rilis }}</td>
                     <td class="center-text">{{ song.total_play }}</td>
-                    <td class="center-text"><a href="#" class="button">Lihat</a></td>
+                    <td class="center-text">
+                        <a href="{% url 'song:play_song' song.id %}" class="button">Lihat</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

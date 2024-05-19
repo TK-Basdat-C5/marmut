@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}
-    Tambah Lagu
-{% endblock %}
+
+{% block title %}Playlist Form{% endblock %}
 
 {% block content %}
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tambah Lagu</title>
+    <title>User Playlist</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,8 +31,8 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .form-field select,
-        .form-field input[type="submit"] {
+        .form-field input[type="text"],
+        .form-field textarea {
             width: 100%;
             padding: 8px;
             font-size: 16px;
@@ -56,16 +56,16 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>TAMBAH LAGU</h2>
-        <form action="submit_song.php" method="post">
+        <h2>UBAH PLAYLIST</h2>
+        <form action="{% url 'playlist:ubah_playlist' id_user_playlist %}" method="post">
+            {% csrf_token %}
             <div class="form-field">
-                <label for="lagu">Lagu:</label>
-                <select id="lagu" name="lagu">
-                    <!-- List all songs here as options -->
-                    <option value="lagu1">Judul Lagu 1 - Nama Artis 1</option>
-                    <option value="lagu2">Judul Lagu 2 - Nama Artis 2</option>
-                    <!-- Add more songs as needed -->
-                </select>
+                <label for="judul">Judul:</label>
+                <input type="text" id="judul" name="judul" value="{{judul}}" required>
+            </div>
+            <div class="form-field">
+                <label for="deskripsi">Deskripsi:</label>
+                <textarea id="deskripsi" name="deskripsi" rows="4" required>{{deskripsi}}</textarea>
             </div>
             <div class="form-field">
                 <input type="submit" class="form-submit" value="SUBMIT">
@@ -74,4 +74,5 @@
     </div>
 </body>
 </html>
+
 {% endblock %}
