@@ -1,3 +1,8 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,38 +63,20 @@
             </tr>
         </thead>
         <tbody>
+            {% for royalty in royalties %}
             <tr>
-                <td>Fortnight (feat. Post Malone)</td>
-                <td>THE TORTURED POETS DEPARTMENT</td>
-                <td>147,378,113</td>
-                <td>2,341,582</td>
-                <td>Rp 250,450,000</td>
+                <td>{{ royalty.song_title }}</td>
+                <td>{{ royalty.album_title }}</td>
+                <td>{{ royalty.total_play }}</td>
+                <td>{{ royalty.total_download }}</td>
+                <td>{{ royalty.total_royalty }}</td>
             </tr>
-            <tr>
-                <td>Anti-Hero</td>
-                <td>Midnights</td>
-                <td>1,518,247,218</td>
-                <td>41,534,235</td>
-                <td>Rp 23,533,234,000</td>
-            </tr>
-            <tr>
-                <td>evermore (feat. Bon Iver)</td>
-                <td>evermore</td>
-                <td>210,341,956</td>
-                <td>1,466,294</td>
-                <td>Rp 23,533,234,000</td>
-            </tr>
-            <tr>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-            </tr>
-            <!-- Tambahkan baris untuk lagu-lagu lainnya sesuai kebutuhan -->
+            {% endfor %}
         </tbody>
+        
     </table>
 </div>
 
 </body>
 </html>
+{% endblock %}
