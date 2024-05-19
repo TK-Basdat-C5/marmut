@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'album_and_song',
     'song',
     'playlist',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
