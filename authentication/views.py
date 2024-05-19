@@ -106,9 +106,13 @@ def dashboard(request):
 
     if("Artist" in roles):
         context['songs'] = get_songs_artist_songwriter(email, "artist")
-    elif("Songwriter" in roles):
-        context['songs'] = get_songs_artist_songwriter(email, "songwriter")
-
+    if("Songwriter" in roles):
+        if 'songs' in context:
+            context['songs'] = context['songs'] + get_songs_artist_songwriter(email, "songwriter")
+        else:
+            context['songs'] = get_songs_artist_songwriter(email, "songwriter")
+    if("Podcaster" in roles):
+      context['podcasts'] = get_podcaster(email)
 
     return render(request, 'dashboard.html', context)
 
@@ -178,6 +182,36 @@ def get_songs_artist_songwriter(email: str, role: str) -> list:
         cursor.execute("set search_path to public")
 
     return formatted_songs
+
+def get_podcaster(email: str) -> list:
+    podcasts = []
+    formatted_podcasts = []
+    with conn.cursor() as cursor:
+        cursor.execute("set search_path to marmut")
+        cursor.execute(f"SELECT id_konten FROM PODCAST WHERE email_podcaster = '{email}'")
+        datas = cursor.fetchall()
+
+        for data in datas:
+            id_konten = str(data[0])
+            cursor.execute(f"SELECT * FROM KONTEN WHERE id = '{id_konten}'")
+            tmp = cursor.fetchall()
+            podcasts.append(tmp)
+
+        for podcast_group in podcasts:
+            group_list = []
+            for podcast in podcast_group:
+                podcast_dict = {
+                    'id': podcast[0],
+                    'title': podcast[1],
+                    'release_date': podcast[2],
+                    'year': podcast[3],
+                    'duration': podcast[4]
+                }
+                group_list.append(podcast_dict)
+            formatted_podcasts.append(group_list)
+        cursor.execute("set search_path to public")
+
+    return formatted_podcasts
 
 
 @csrf_exempt
