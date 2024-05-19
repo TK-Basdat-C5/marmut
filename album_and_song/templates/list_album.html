@@ -76,7 +76,9 @@
     </style>
 </head>
 <body>
+{% if role != "label" %}
 <a class="create" href="{% url 'album_and_song:create_album'%}">Create New Album</a>
+{% endif %}
 <div class="container">
     <h2>List Album</h2>
     {% if albums %}
