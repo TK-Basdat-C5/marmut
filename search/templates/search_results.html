@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Hasil Pencarian "{{ query }}"</h2>
+
+{% if results %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tipe</th>
+                <th>Judul</th>
+                <th>Oleh</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                {% if result.id_konten %}
+                    <tr>
+                        <td>{% if result.id_konten.judul %}SONG{% endif %}</td>
+                        <td>{{ result.id_konten.judul }}</td>
+                        <td>{{ result.id_artist__email_akun.username if result.id_konten.judul else result.email_podcaster__email }}</td>
+                        <td><a href="{% url 'song_detail' result.id_konten.id %}" class="btn-primary">Lihat</a></td>
+                    </tr>
+                {% elif result.id_user_playlist %}
+                    <tr>
+                        <td>USER PLAYLIST</td>
+                        <td>{{ result.judul }}</td>
+                        <td>{{ result.email_pembuat__username }}</td>
+                        <td><a href="{% url 'playlist_detail' result.id_user_playlist.id %}" class="btn-primary">Lihat</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Maaf, pencarian untuk "{{ query }}" tidak ditemukan.</p>
+{% endif %}
+{% endblock %}
