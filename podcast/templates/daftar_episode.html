@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Episode</title>
+<style>
+    .center-text {
+        text-align: center;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 5px;
+        text-align: center;
+    }
+    .center-btn {
+        display: flex;
+        justify-content: center;
+    }
+    .podcast-detail {
+        margin: 20px;
+    }
+    .episode-list {
+        margin-top: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function loadEpisodes() {
+        $.ajax({
+            url: "{% url 'podcast:get-episode-list' id %}",
+            method: "GET",
+            success: function(response) {
+                let tableBody = $('#episode-table-body');
+                tableBody.empty();
+                response.all_episode.forEach(function(episode) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${episode.judul}</td>
+                            <td>${episode.deskripsi}</td>
+                            <td>${episode.durasi}</td>
+                            <td>${episode.tanggal_rilis}</td>
+                            <td>
+                                <div class="center-btn">
+                                    <button onclick="deleteEpisode('${episode.id_episode}')" class="btn">Hapus</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+                if (response.all_episode.length === 0) {
+                    tableBody.append('<tr><td colspan="5" class="center-text">Tidak ada episode yang tersedia</td></tr>');
+                }
+            },
+            error: function() {
+                alert("Error loading episodes.");
+            }
+        });
+    }
+
+    function deleteEpisode(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus episode ini?')) {
+            $.ajax({
+                url: `{% url 'podcast:delete-episode' 'PLACEHOLDER' %}`.replace('PLACEHOLDER', id),
+                method: "POST",  // Ganti dengan POST karena itu yang digunakan dalam view
+                success: function(response) {
+                    if (response.status === 'success') {
+                        loadEpisodes();
+                    } else {
+                        alert("Error deleting episode.");
+                    }
+                },
+                error: function() {
+                    alert("Error deleting episode.");
+                }
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        loadEpisodes();
+        setInterval(loadEpisodes, 30000);
+    });
+</script>
+</head>
+<body>
+<div class="podcast-detail">
+    <h1 class="center-text">Daftar Episode Pada {{ judul_podcast }}</h1>
+    <div class="episode-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>Judul Episode</th>
+                    <th>Deskripsi</th>
+                    <th>Durasi</th>
+                    <th>Tanggal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="episode-table-body">
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
+{% endblock %}

@@ -10,7 +10,7 @@ def map_cursor(cursor):
 def query(query_str: str):
     hasil = []
     with connection.cursor() as cursor:
-        cursor.execute("SET SEARCH_PATH TO 'MARMUT'")
+        cursor.execute("SET SEARCH_PATH TO marmut")
 
         try:
             cursor.execute(query_str)
@@ -21,5 +21,7 @@ def query(query_str: str):
                 hasil = cursor.rowcount
         except Exception as e:
             hasil = e
+        finally:
+            cursor.execute("SET SEARCH_PATH TO public")
 
     return hasil
