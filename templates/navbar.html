@@ -63,10 +63,10 @@
         nav input[type="text"] {
             padding: 10px;
             border: none;
-            background-color: #9500a8; /* Match navbar background color */
+            background-color: #9500a8;
             color: white;
-            border-bottom: 2px solid white; /* Add underline */
-            font-size: 16px; /* Increase font size */
+            border-bottom: 2px solid white; 
+            font-size: 16px;
             outline: none;
         }
 
@@ -75,31 +75,32 @@
         }
 
         nav input[type="text"]:focus {
-            border-bottom: 2px solid #b261c7; /* Change underline color on focus */
+            border-bottom: 2px solid #b261c7;
         }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-            {% if is_logged_in %}
-            <li class="nav-item"><a href="/dashboard/">Dashboard</a></li>
-                {% if role == "pengguna" %}
-                    <li class="nav-item"><a href="/chart/">Chart</a></li>
-                    <li class="nav-item"><a href="/playlist/">Kelola Playlist</a></li>
-                    <li class="nav-item"><a href="/subscription/">Langganan Paket</a></li>
-                    {% if is_premium %}
-                        <li class="nav-item"><a href="/downloaded-songs/">Kelola Downloaded Songs</a></li>
-                    {% endif %}
-                    
-                    {% if "Podcaster" in roles %}
-                        <li class="nav-item"><a href="/podcast/">Kelola Podcast</a></li>
-                    {% endif %}
-                    
-                    {% if "Artist" in roles or "Songwriter" in roles %}
-                        <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album & Songs</a></li>
-                        <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
-                    {% endif %} 
+
+                {% if is_logged_in %}
+                <li class="nav-item"><a href="/dashboard">Dashboard</a></li>
+                    {% if role == "pengguna" %}
+                        <li class="nav-item"><a href="/chart/chart-list/">Chart</a></li>
+                        <li class="nav-item"><a href="/playlist">Kelola Playlist</a></li>
+                        <li class="nav-item"><a href="/subscription">Langganan Paket</a></li>
+                        {% if is_premium %}
+                            <li class="nav-item"><a href="/downloaded-songs">Kelola Downloaded Songs</a></li>
+                        {% endif %}
+                        
+                        {% if "Podcaster" in roles %}
+                            <li class="nav-item"><a href="/podcast/list-podcast/">Kelola Podcast</a></li>
+                        {% endif %}
+                        
+                        {% if "Artist" in roles or "Songwriter" in roles %}
+                          <li class="nav-item"><a href="{% url 'album_and_song:list_album' %}">Kelola Album & Songs</a></li>
+                          <li class="nav-item"><a href="{% url 'album_and_song:list_royalty' %}">Cek Royalti</a></li>
+                        {% endif %} 
 
                     <li class="nav-item"><input type="text" placeholder="Search..." /></li>
                 {% else %}
