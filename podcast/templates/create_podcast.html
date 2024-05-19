@@ -8,12 +8,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Podcast</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <style>
         .center-text {
             text-align: center;
         }
-        .button, .add-more-button {
+        .button {
             display: inline-block;
             padding: 5px 15px;
             text-align: center;
@@ -24,9 +23,6 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .add-more-button {
-            background-color: #28a745;
-        }
         .center-btn {
             display: flex;
             justify-content: center;
@@ -34,30 +30,15 @@
         .form-group {
             margin-bottom: 15px;
         }
-        .select2-container .select2-selection--multiple {
-            display: none; 
-        }
-        .selected-items {
+        .checkbox-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 10px;
+            gap: 10px;
         }
-        .selected-item {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 3px;
+        .checkbox-item {
             display: flex;
             align-items: center;
-        }
-        .remove-genre {
-            margin-left: 5px;
-            cursor: pointer;
-            color: #ff0000;
-        }
-        .form-group > label {
-            display: block;
+            gap: 5px;
         }
     </style>
 </head>
@@ -73,68 +54,20 @@
             </div>
             <div class="form-group">
                 <label for="genre">Genre:</label>
-                <select id="genre" name="genre[]" class="select2" multiple="multiple" required>
+                <div class="checkbox-group">
                     {% for genre in genres %}
-                    <option value="{{ genre }}">{{ genre }}</option>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="genre_{{ forloop.counter }}" name="genre[]" value="{{ genre }}">
+                        <label for="genre_{{ forloop.counter }}">{{ genre }}</label>
+                    </div>
                     {% endfor %}
-                </select>
-                <div class="selected-items"></div>
-                <button type="button" class="add-more-button">Tambah Genre</button>
+                </div>
             </div>
             <div class="center-btn">
                 <button type="submit" class="button">SUBMIT</button>
             </div>
         </form>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var $select = $('#genre').select2({
-                placeholder: "Pilih genre",
-                allowClear: true,
-                minimumResultsForSearch: Infinity
-            });
-
-            $('.add-more-button').click(function() {
-                $select.select2('open');
-            });
-
-            $select.on('select2:select', function (e) {
-                var item = e.params.data;
-                var itemHtml = '<div class="selected-item" data-id="' + item.id + '">' +
-                                item.text + '<span class="remove-genre">x</span></div>';
-                $('.selected-items').append(itemHtml);
-                updateSelect2();
-            });
-
-            $(document).on('click', '.remove-genre', function() {
-                var itemId = $(this).parent().data('id');
-                var option = $select.find('option[value="'+itemId+'"]');
-                option.prop('selected', false).prop('disabled', false);
-                $select.trigger('change');
-                $(this).parent().remove();
-                updateSelect2();
-            });
-
-            function updateSelect2() {
-                var selectedGenres = $select.val() || [];
-                $select.find('option').each(function() {
-                    if (selectedGenres.includes($(this).val())) {
-                        $(this).prop('disabled', true);
-                    } else {
-                        $(this).prop('disabled', false);
-                    }
-                });
-                $select.select2({
-                    placeholder: "Pilih genre",
-                    allowClear: true,
-                    minimumResultsForSearch: Infinity
-                });
-            }
-        });
-    </script>
 </body>
 </html>
 {% endblock %}
