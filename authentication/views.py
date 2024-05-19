@@ -110,7 +110,7 @@ def dashboard(request):
         context['songs'] = get_songs_artist_songwriter(email, "songwriter")
     elif("Podcaster" in roles):
         context['podcasts'] = get_podcaster(email)
-
+    
 
     return render(request, 'dashboard.html', context)
 
